@@ -2,15 +2,15 @@
   "manifest_version": 2,
 
   "name": "Chrome Translator",
-  "description": "This extension shows a Google Image search result for the current page",
+  "description": "Translator with text to speech.",
   "version": "1.0",
-
+  //http://icons.iconarchive.com/icons/igh0zt/ios7-style-metro-ui/64/MetroUI-Google-Translate-icon.png
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
   "permissions": [
     "activeTab",
-    "https://ajax.googleapis.com/"
+    "http://www.bing.com/"
   ]
 }

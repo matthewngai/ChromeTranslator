@@ -1,4 +1,3 @@
-
 /**
  * Get the current URL.
  *
@@ -34,9 +33,6 @@ function getCurrentTabUrl(callback) {
     callback(url);
   });
 
-
-
-
   // Most methods of the Chrome extension APIs are asynchronous. This means that
   // you CANNOT do something like this:
   //
@@ -47,13 +43,6 @@ function getCurrentTabUrl(callback) {
   // alert(url); // Shows "undefined", because chrome.tabs.query is async.
 }
 
-/**
- * @param {string} searchTerm - Search term for Google Image search.
- * @param {function(string,number,number)} callback - Called when an image has
- *   been found. The callback gets the URL, width and height of the image.
- * @param {function(string)} errorCallback - Called when the image is not found.
- *   The callback gets a string that describes the failure reason.
- */
 function getImageUrl(searchTerm, callback, errorCallback) {
   var searchUrl = 'https://ajax.googleapis.com/ajax/services/search/images' +
     '?v=1.0&q=' + encodeURIComponent(searchTerm);
@@ -103,27 +92,36 @@ function oddcast(url, text, errorCallback) {
   xhr.onerror = function() {
     errorCallback('Network error: ' + xhr.status + xhr.responseText);
   };
-  xhr.send();
+  xhr.send(null);
 }
 
-function bing(url, text, errorCallback) {
+function bingTTS(urlLink, text, errorCallback) { 
   var xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
   xhr.addEventListener("readystatechange", function () {
     if (this.readyState === 4) {
-      console.log(this.responseText);
-      
+      var blob = new Blob([xhr.response], {type: 'audio/ogg'});
+      var url = window.URL || window.webkitURL;
+      var objectUrl = url.createObjectURL(blob);
+      var audio = new Audio();
+      audio.src = objectUrl;
+      renderStatus(xhr);
+      audio.onload = function(evt) {
+        url.revokeObjectUrl(objectUrl);
+      };
+      audio.play();                  
     }
   });
-  xhr.open("GET", url + text);
+  xhr.open("GET", urlLink + text);
+  xhr.responseType = 'blob';
   xhr.setRequestHeader("cache-control", "no-cache");
   xhr.onerror = function() {
     errorCallback('Network error: ' + xhr.status + xhr.responseText);
   };
-  xhr.send();
+  xhr.send(null);
 }
 
-function bingTrans(url, text, errorCallback) {
+function bingTrans(url, text, resultCallback, errorCallback) {
   var rn = Math.floor((Math.random() * 10000) + 1);
   var data = "[{id: " + rn + ", text: \"" + text + "\"}]";
   var xhr = new XMLHttpRequest();
@@ -133,13 +131,14 @@ function bingTrans(url, text, errorCallback) {
       console.log(this.responseText);
       var rs = JSON.parse(this.responseText);
       var textData = rs.items[0].text;
-      renderStatus(textData);
+      resultCallback(textData);
     }
   });
 
   xhr.open("POST", url);
   xhr.setRequestHeader("content-type", "application/json");
   xhr.setRequestHeader("cache-control", "no-cache");
+
   xhr.onerror = function() {
     errorCallback('Network error: ' + xhr.status + xhr.responseText);
   };
@@ -148,13 +147,21 @@ function bingTrans(url, text, errorCallback) {
 
 document.addEventListener('DOMContentLoaded', function() {
   getCurrentTabUrl(function(url) {
-
-    var text = '';
-    bing(myUrl, text, function(errorMessage) {
-      renderStatus('Cannot retrieve speech: ' + errorMessage);
-    });
-    var translateText = 'When do you want to eat?';
-    bingTrans(myUrl_t, translateText, function(errorMessage) {
+    var oddUrl = "http://cache-a.oddcast.com/c_fs/440044ed609bc14281cbd9b2a466c450.mp3?engine=4&language=10&voice=1&text=";
+    var lang = "yue";
+    var myUrl = "http://www.bing.com/translator/api/language/Speak?locale=" + lang + "&gender=male&media=audio%2Fmp3&text=";
+    var myUrl_t = "http://www.bing.com/translator/api/Translate/TranslateArray?from=-&to=" + lang;
+    var finalText = 'Hello';
+    var translateText = 'Does this work?';
+    bingTrans(myUrl_t, translateText, 
+    function(resultCallback) {
+      finalText = resultCallback;
+      //call function inside result callback
+      bingTTS(myUrl, encodeURI(finalText), function(errorMessage) {
+        renderStatus('Cannot retrieve speech: ' + errorMessage);
+      });
+    },
+    function(errorMessage) {
       renderStatus('Cannot translate: ' + errorMessage);
     });
   });
