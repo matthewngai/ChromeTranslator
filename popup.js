@@ -1,12 +1,12 @@
-function getCurrentTabUrl(callback) {
-  chrome.tabs.executeScript( {
-    code: "callback(window.getSelection().toString());"
-  });
-  chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-      if (request.method == "getSelection")
-        sendResponse({data: window.getSelection().toString()});
-      else
-        sendResponse({}); // snub them.
+function getCurrentSelectedText(callback) {
+  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.method == "getSelection") {
+      console.log(window.getSelection().toString());
+      sendResponse({data: window.getSelection().toString()});     
+    }
+    else {
+      sendResponse({}); // snub them.
+    }
   });
 }
 
@@ -80,8 +80,32 @@ function bingTrans(url, text, resultCallback, errorCallback) {
   xhr.send(data);
 }
 
+function changeHandler() {
+  //turn on
+  if (onoffswitchtoggle.checked) {
+    console.log('ON');
+  }
+  //turn off
+  else  {
+    console.log('OFF');
+  }
+}
+
+function changeVoice() {
+  if (voiceswitchtoggle.checked) {
+    console.log('Male');
+  }
+  else {
+    console.log('Female');
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  getCurrentTabUrl(
+
+  document.getElementById("onoffswitchtoggle").addEventListener('click', changeHandler);
+  document.getElementById("voiceswitchtoggle").addEventListener('click', changeVoice);
+
+  getCurrentSelectedText(
     function(selectedText) {
       console.log(selectedText);
       var oddUrl = "http://cache-a.oddcast.com/c_fs/440044ed609bc14281cbd9b2a466c450.mp3?engine=4&language=10&voice=1&text=";
