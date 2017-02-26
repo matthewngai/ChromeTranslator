@@ -15,9 +15,14 @@
       #status {
         /* avoid an excessively wide status text */
         white-space: pre;
-        text-overflow: ellipsis;
+        text-overflow: ;
         overflow: hidden;
-        max-width: 400px;
+        max-width: 300px;
+        min-width: 150px;
+      }
+      #myFrame {
+        max-width: 300px;
+        min-width: 150px;
       }
     </style>
 
@@ -30,8 +35,10 @@
     <script src="popup.js"></script>
   </head>
   <body>
-    <div id="status"></div>
-    <img id="image-result" hidden>
+    <div id="myFrame">    
+      <div>Chrome Translator</div>
+      <div id="status"></div>
+    </div>
   </body>
 </html>
 
