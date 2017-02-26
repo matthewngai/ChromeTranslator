@@ -32,47 +32,6 @@ function getCurrentTabUrl(callback) {
 
     callback(url);
   });
-
-  // Most methods of the Chrome extension APIs are asynchronous. This means that
-  // you CANNOT do something like this:
-  //
-  // var url;
-  // chrome.tabs.query(queryInfo, function(tabs) {
-  //   url = tabs[0].url;
-  // });
-  // alert(url); // Shows "undefined", because chrome.tabs.query is async.
-}
-
-function getImageUrl(searchTerm, callback, errorCallback) {
-  var searchUrl = 'https://ajax.googleapis.com/ajax/services/search/images' +
-    '?v=1.0&q=' + encodeURIComponent(searchTerm);
-  var x = new XMLHttpRequest();
-  x.open('GET', searchUrl);
-  // The Google image search API responds with JSON, so let Chrome parse it.
-  x.responseType = 'json';
-  x.onload = function() {
-    // Parse and process the response from Google Image Search.
-    var response = x.response;
-    if (!response || !response.responseData || !response.responseData.results ||
-        response.responseData.results.length === 0) {
-      errorCallback('No response from Google Image search!');
-      return;
-    }
-    var firstResult = response.responseData.results[0];
-    // Take the thumbnail instead of the full image to get an approximately
-    // consistent image size.
-    var imageUrl = firstResult.tbUrl;
-    var width = parseInt(firstResult.tbWidth);
-    var height = parseInt(firstResult.tbHeight);
-    console.assert(
-        typeof imageUrl == 'string' && !isNaN(width) && !isNaN(height),
-        'Unexpected respose from the Google Image Search API!');
-    callback(imageUrl, width, height);
-  };
-  x.onerror = function() {
-    errorCallback('Network error.');
-  };
-  x.send();
 }
 
 function renderStatus(statusText) {
@@ -153,16 +112,20 @@ document.addEventListener('DOMContentLoaded', function() {
     var myUrl_t = "http://www.bing.com/translator/api/Translate/TranslateArray?from=-&to=" + lang;
     var finalText = 'Hello';
     var translateText = 'Does this work?';
-    bingTrans(myUrl_t, translateText, 
-    function(resultCallback) {
-      finalText = resultCallback;
-      //call function inside result callback
-      bingTTS(myUrl, encodeURI(finalText), function(errorMessage) {
-        renderStatus('Cannot retrieve speech: ' + errorMessage);
-      });
-    },
-    function(errorMessage) {
-      renderStatus('Cannot translate: ' + errorMessage);
-    });
+
+
+    // bingTrans(myUrl_t, translateText, 
+    // function(resultCallback) {
+    //   finalText = resultCallback;
+    //   //call function inside result callback
+    //   bingTTS(myUrl, encodeURI(finalText), function(errorMessage) {
+    //     renderStatus('Cannot retrieve speech: ' + errorMessage);
+    //   });
+    // },
+    // function(errorMessage) {
+    //   renderStatus('Cannot translate: ' + errorMessage);
+    // });
+
+
   });
 });
