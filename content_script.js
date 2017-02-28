@@ -1,9 +1,3 @@
-
-
-
-
-
-
 var speakKeyStr;
 
 function speakSelection() {
@@ -23,7 +17,7 @@ function speakSelection() {
     console.log(selectedText);
   }
   console.log(selectedText);
-  chrome.extension.sendRequest({'speak': selectedText});
+  chrome.extension.sendRequest({'searchText': selectedText});
 }
 
 function onExtensionMessage(request) {
