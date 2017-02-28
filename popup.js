@@ -22,27 +22,31 @@
   }
 
   function getVoiceLang() {
+  var voice = document.getElementById('voice');
   var voiceArray = [];
   chrome.tts.getVoices(function(va) {
-      voiceArray = va;
-      for (var i = 0; i < voiceArray.length; i++) {
-        var opt = document.createElement('option');
-        var name = voiceArray[i].voiceName;
-        if (name == localStorage['voice']) {
-          opt.setAttribute('selected', '');
-        }
-        opt.setAttribute('value', name);
-        opt.innerText = voiceArray[i].voiceName;
-        voice.appendChild(opt);
+    voiceArray = va;
+    for (var i = 0; i < voiceArray.length; i++) {
+      var opt = document.createElement('option');
+      var name = voiceArray[i].voiceName;
+      if (name == localStorage['ct_voice']) {
+        opt.setAttribute('selected', '');
       }
+      opt.setAttribute('value', name);
+      opt.innerText = voiceArray[i].voiceName;
+      voice.appendChild(opt);
+    }
     });
+  voice.addEventListener('change', function() {
+    var i = voice.selectedIndex;
+    localStorage['ct_voice'] = voiceArray[i].voiceName;
+  }, false);
 }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("onoffswitchtoggle").addEventListener('click', changeHandler);
-    document.getElementById("voiceswitchtoggle").addEventListener('click', changeVoice);
-    /*
-      TODO: add localStorage
-    */
-  });
+function loadListeners() {
+  document.getElementById("onoffswitchtoggle").addEventListener('click', changeHandler);
+  document.getElementById("voiceswitchtoggle").addEventListener('click', changeVoice);
+  getVoiceLang();
+}
 
+document.addEventListener('DOMContentLoaded', loadListeners);
