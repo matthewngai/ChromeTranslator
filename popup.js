@@ -40,10 +40,12 @@
   voice.addEventListener('change', function() {
     var i = voice.selectedIndex;
     localStorage['ct_voice'] = voiceArray[i].voiceName;
+    console.log(localStorage['ct_voice']);
   }, false);
 }
 
 function loadListeners() {
+  console.log(chrome);
   document.getElementById("onoffswitchtoggle").addEventListener('click', changeHandler);
   document.getElementById("voiceswitchtoggle").addEventListener('click', changeVoice);
   getVoiceLang();

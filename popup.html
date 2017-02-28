@@ -1,4 +1,3 @@
-<!doctype html>
 <!--
  This page is shown when the extension button is clicked, because the
  "browser_action" field in manifest.json contains the "default_popup" key with
@@ -171,6 +170,13 @@
       .spacingTop {
         padding-top: 8px;
       }
+      .voice_label {
+
+      }
+      .voice_wrap {
+        max-width: 170px;
+        overflow: hidden;
+      }
     </style>
 
     <!--
@@ -179,8 +185,8 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
-    <script src="popup.js"></script>
-    <script src="content_script.js"></script>
+    <script src="/popup.js"></script>
+    <script src="/content_script.js"></script>
   </head>
   <body>
     <div id="myFrame">    
@@ -199,7 +205,7 @@
 
         <div class="paddingPopup"></div>
 
-
+        <label>Voice:</label>
         <div class="voiceswitch">
           <input type="checkbox" name="voiceswitch" class="voiceswitch-checkbox" id="voiceswitchtoggle">
           <label class="voiceswitch-label" for="voiceswitchtoggle">
@@ -208,11 +214,11 @@
           </label>
         </div>
 
-      <div class="ctrl_label">
+      <div class="voice_label">
         <label for="voice">Voice:</label>
       </div>
-      <div class="ctrl_wrap">
-        <select id="voice" class="ctrl"></select>
+      <div class="">
+        <select id="voice" class="voice_wrap"></select>
       </div>
 
       </div>

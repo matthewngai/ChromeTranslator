@@ -1,5 +1,5 @@
 // chrome.browserAction.onClicked.addListener(clickedAction);
-chrome.tabs.onSelectionChanged.addListener(onTabSelect);
+// chrome.tabs.onSelectionChanged.addListener(onTabSelect);
 
 function clickedAction() {
 	console.log("clicked action!");
