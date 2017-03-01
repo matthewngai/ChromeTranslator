@@ -1,13 +1,3 @@
-// chrome.browserAction.onClicked.addListener(clickedAction);
-// chrome.tabs.onSelectionChanged.addListener(onTabSelect);
-
-// function clickedAction() {
-// 	console.log("clicked action!");
-// }
-
-// function onTabSelect() {
-// 	console.log("on tab select!");
-// }
 
   function bingTrans(url, text, resultCallback, errorCallback) {
     var rn = Math.floor((Math.random() * 100000) + 1);
@@ -77,40 +67,40 @@ var globalUtteranceIndex = 0;
 //   });
 // }
 
-// function speak(utterance) {
-//   if (speaking && utterance == lastUtterance) {
-//     chrome.tts.stop();
-//     return;
-//   }
+function speak(utterance) {
+  if (speaking && utterance == lastUtterance) {
+    chrome.tts.stop();
+    return;
+  }
 
-//   speaking = true;
-//   lastUtterance = utterance;
-//   globalUtteranceIndex++;
-//   var utteranceIndex = globalUtteranceIndex;
+  speaking = true;
+  lastUtterance = utterance;
+  globalUtteranceIndex++;
+  var utteranceIndex = globalUtteranceIndex;
 
-//   var rate = localStorage['rate'] || 1.0;
-//   var pitch = localStorage['pitch'] || 1.0;
-//   var volume = localStorage['volume'] || 1.0;
-//   var voice = localStorage['voice'];
+  var rate = localStorage['rate'] || 1.0;
+  var pitch = localStorage['pitch'] || 1.0;
+  var volume = localStorage['volume'] || 1.0;
+  var voice = localStorage['voice'];
   
-//   chrome.tts.speak(
-//       utterance,
-//       {voiceName: voice,
-//        rate: parseFloat(rate),
-//        pitch: parseFloat(pitch),
-//        volume: parseFloat(volume),
-//        onEvent: function(evt) {
-//          if (evt.type == 'end' ||
-//              evt.type == 'interrupted' ||
-//              evt.type == 'cancelled' ||
-//              evt.type == 'error') {
-//            if (utteranceIndex == globalUtteranceIndex) {
-//              speaking = false;
-//            }
-//          }
-//        }
-//       });
-// }
+  chrome.tts.speak(
+      utterance,
+      {voiceName: voice,
+       rate: parseFloat(rate),
+       pitch: parseFloat(pitch),
+       volume: parseFloat(volume),
+       onEvent: function(evt) {
+         if (evt.type == 'end' ||
+             evt.type == 'interrupted' ||
+             evt.type == 'cancelled' ||
+             evt.type == 'error') {
+           if (utteranceIndex == globalUtteranceIndex) {
+             speaking = false;
+           }
+         }
+       }
+      });
+}
 
 function initBackground() {
   // loadContentScriptInAllTabs();
