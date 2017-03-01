@@ -45,7 +45,6 @@
 }
 
 function loadListeners() {
-  console.log(chrome);
   document.getElementById("onoffswitchtoggle").addEventListener('click', changeHandler);
   document.getElementById("voiceswitchtoggle").addEventListener('click', changeVoice);
   getVoiceLang();

@@ -17,23 +17,23 @@ function speakSelection() {
     console.log(selectedText);
   }
   console.log(selectedText);
-  chrome.extension.sendRequest({'searchText': selectedText});
+  chrome.extension.sendRequest({'showPopup': selectedText});
 }
 
 function onExtensionMessage(request) {
-  if (request['speakSelection'] != undefined) {
-    if (!document.hasFocus()) {
-      return;
-    }
-    speakSelection();
-  } else if (request['key'] != undefined) {
-    speakKeyStr = request['key'];
-  }
+  // if (request['speakSelection'] != undefined) {
+  //   if (!document.hasFocus()) {
+  //     return;
+  //   }
+  //   speakSelection();
+  // } else if (request['key'] != undefined) {
+  //   speakKeyStr = request['key'];
+  // }
 }
 
 function initcs() {
-	chrome.extension.onRequest.addListener(onExtensionMessage);
-	chrome.extension.sendRequest({'init': true}, onExtensionMessage);
+	// chrome.extension.onRequest.addListener(onExtensionMessage);
+	// chrome.extension.sendRequest({'init': true}, onExtensionMessage);
   document.addEventListener('click', function() {
     var focused = document.activeElement;
     var selectedText;
@@ -41,7 +41,6 @@ function initcs() {
       try {
         selectedText = focused.value.substring(
             focused.selectionStart, focused.selectionEnd);
-        console.log(selectedText);
       } catch (err) {
       }
     }
@@ -49,7 +48,7 @@ function initcs() {
       var sel = window.getSelection();
       var selectedText = sel.toString();
       if (selectedText) {
-      console.log(selectedText);
+      	chrome.runtime.sendMessage(null, {'showPopup' : selectedText});
       }
     }
   });
