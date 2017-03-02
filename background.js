@@ -23,24 +23,12 @@
     xhr.send(data);
   }
 
-function showPopup(selectedText) {
-  console.log(selectedText);
-  /*
-  TODO:
-  Make the popup html here 
-  get the translate
-  display to popup html
-  */
-  chrome.runtime.getURL("/translate.html");
-  console.log(chrome.runtime);
-  // topdoc = window.document;
-  var popup = document.getElementById('translate-window');
-  // console.log(topdoc);
-  console.log(popup);
 
 
-	// searchText(selectedText);
-}
+
+
+
+
 
 function searchText(selectedText) {
     var lang = "yue";
@@ -102,6 +90,16 @@ function speak(utterance) {
       });
 }
 
+
+
+  function sendOpenPopup() {
+    console.log("in backend");
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+      chrome.tabs.sendMessage(tabs[0].id, {action: "open_dialog_box"}, function(response) {});  
+  });
+
+  }
+
 function initBackground() {
   // loadContentScriptInAllTabs();
 
@@ -119,8 +117,8 @@ function initBackground() {
         if (request['init']) {
           sendResponse({'key': localStorage['speakKey']});
         } else if (request['showPopup']) {
-
-          showPopup(request['showPopup']);
+          sendOpenPopup();
+          // showPopup(request['showPopup']);
         }
       });
 

@@ -10,7 +10,6 @@
   "background": {
     "scripts": ["background.js"]
   },
-
   "name": "Chrome Translator",
   "description": "Translator with text to speech.",
   "version": "1.0",
@@ -22,10 +21,11 @@
   },
   // "options_page": "options.html",
   "minimum_chrome_version": "14",
+
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "all_frames": true,
+      "css": ["style.css"],
       "js": ["content_script.js"]
     }
   ]

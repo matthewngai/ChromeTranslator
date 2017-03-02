@@ -1,0 +1,21 @@
+#chromeextensionpopup{
+    background: white;
+    border: solid 3px black;
+    line-height: 25px;
+    position: absolute;
+    right: 20px;
+    text-align: center;
+    top: 20px;
+    width: 100px;
+    z-index: 999999999;
+}
+
+#chromeextensionpopupcloselink{
+    background: red;
+    color: white;
+    cursor: pointer;
+    float: right;
+    height: 25px;
+    text-align: center;
+    width: 25px;
+}
