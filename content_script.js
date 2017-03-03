@@ -31,10 +31,13 @@ function onExtensionMessage(request) {
   // }
 }
 
+function speakWords(selectedText) {
+  chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
+}
+
 function removeExtensionPopup(){
   $("#chromeextensionpopup").remove();
 }
-
 
 function showPopup(selectedText) {
 console.log(selectedText.sendback);
@@ -42,8 +45,6 @@ console.log(selectedText.sendback);
 var winpop = document.createElement("div");
 winpop.setAttribute("id", "chromeextensionpopup");
 document.body.appendChild(winpop);
-
-
 var closelink = document.createElement("div");
 closelink.setAttribute("id", "chromeextensionpopupcloselink");
 closelink.innerText = 'x';
@@ -63,7 +64,7 @@ TODO****
 2. speak voice
 3. Automate id's not hardcode
 */
-// document.getElementById("speakerImg").addEventListener("click", seeSelected(selectedText.sendback));
+// document.getElementById("speakerImg").addEventListener("click", speakWords(selectedText.sendback));
 document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
   // searchText(selectedText);
 }
@@ -87,9 +88,9 @@ function initcs() {
       console.log(evt.target.id);
       if (evt.target.id != parentElement.id) {
 
-        var target = $(evt.target);    
+        var target = $(evt.target);
         if (!target.parents('div#chromeextensionpopup').length) {
-          removeExtensionPopup();      
+          removeExtensionPopup();
         }
       }
     }
