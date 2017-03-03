@@ -8,14 +8,20 @@
     top: 20px;
     width: 100px;
     z-index: 999999999;
+    /*position: relative;*/
 }
 
 #chromeextensionpopupcloselink{
-    background: red;
-    color: white;
+    background: white;
+    color: black;
     cursor: pointer;
     float: right;
     height: 25px;
     text-align: center;
     width: 25px;
+    /*position: absolute; */
+}
+
+#displaytextstyle {
+    /*position: absolute;    */
 }

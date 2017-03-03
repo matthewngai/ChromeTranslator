@@ -92,10 +92,11 @@ function speak(utterance) {
 
 
 
-  function sendOpenPopup() {
+  function sendOpenPopup(selectedText) {
     console.log("in backend");
+    var returnText = selectedText; //do actual translations though...
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-      chrome.tabs.sendMessage(tabs[0].id, {action: "open_dialog_box"}, function(response) {});  
+      chrome.tabs.sendMessage(tabs[0].id, {sendback: returnText}, function(response) {});  
   });
 
   }
@@ -117,7 +118,7 @@ function initBackground() {
         if (request['init']) {
           sendResponse({'key': localStorage['speakKey']});
         } else if (request['showPopup']) {
-          sendOpenPopup();
+          sendOpenPopup(request['showPopup']);
           // showPopup(request['showPopup']);
         }
       });

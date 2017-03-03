@@ -1,3 +1,4 @@
+debugger;
 var speakKeyStr;
 
 function speakSelection() {
@@ -32,7 +33,7 @@ function onExtensionMessage(request) {
 }
 
 function removeExtensionPopup(){
-    document.getElementById("chromeextensionpopup").outerHTML='';
+  $("#chromeextensionpopup").remove();
 }
 
 function showPopup(selectedText) {
@@ -42,28 +43,31 @@ function showPopup(selectedText) {
   get the translate
   display to popup html
   */
-  console.log(selectedText);
+  console.log(selectedText.sendback);
 
-var div = document.createElement("div");
-div.setAttribute("id", "chromeextensionpopup");
-div.innerText = selectedText;
-document.body.appendChild(div);
+var winpop = document.createElement("div");
+winpop.setAttribute("id", "chromeextensionpopup");
+document.body.appendChild(winpop);
+
 
 var closelink = document.createElement("div");
 closelink.setAttribute("id", "chromeextensionpopupcloselink");
-closelink.innerText = 'X';
+closelink.innerText = 'x';
 document.getElementById("chromeextensionpopup").appendChild(closelink);
+var textDisplay = document.createElement("div");
+textDisplay.setAttribute("id", "displaytextstyle");
+winpop.appendChild(textDisplay);
+textDisplay.innerText = selectedText.sendback;
 
 
 /*
 TODO****
-1. separate Popup.html from this
-2. make floating popup stationary
+1. make floating popup attached to word
+2. switching tabs
 */
-// document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
+document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
 
 
-console.log(selectedText);
 
   // searchText(selectedText);
 }
@@ -71,15 +75,27 @@ console.log(selectedText);
 function initcs() {
 	// chrome.extension.onRequest.addListener(onExtensionMessage);
 	// chrome.extension.sendRequest({'init': true}, onExtensionMessage);
+
   chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg) {
+      console.log(msg);
+      console.log(sender);
+      console.log(sendResponse);
       showPopup(msg);
     }
   });
   document.addEventListener('click', function(evt) {
+    parentElement = document.getElementById('chromeextensionpopup');
     try {
-      if (evt.target.id != 'chromeextensionpopup') {
-        removeExtensionPopup(); 
+      console.log(parentElement);
+      console.log(evt.target.id);
+      if (evt.target.id != parentElement.id) {
+
+        var target = $(evt.target);    
+        if (!target.parents('div#chromeextensionpopup').length) {
+          console.log('Your clicked element is having div#hello as parent');
+          removeExtensionPopup();      
+        }
       }
     }
     catch(error) {
@@ -99,7 +115,7 @@ function initcs() {
     if (selectedText == undefined) {
       var sel = window.getSelection();
       var selectedText = sel.toString();
-      if (selectedText) {
+      if (selectedText.trim() && !parentElement) {
       	chrome.runtime.sendMessage(null, {'showPopup' : selectedText});
       }
     }
