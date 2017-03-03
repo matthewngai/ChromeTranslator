@@ -21,7 +21,9 @@
   },
   // "options_page": "options.html",
   "minimum_chrome_version": "14",
-
+  "web_accessible_resources": [
+      "images/*.png"
+    ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

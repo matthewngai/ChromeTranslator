@@ -23,13 +23,6 @@
     xhr.send(data);
   }
 
-
-
-
-
-
-
-
 function searchText(selectedText) {
     var lang = "yue";
     var myUrl_t = "http://www.bing.com/translator/api/Translate/TranslateArray?from=-&to=" + lang;
@@ -90,20 +83,15 @@ function speak(utterance) {
       });
 }
 
-
-
-  function sendOpenPopup(selectedText) {
-    console.log("in backend");
-    var returnText = selectedText; //do actual translations though...
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-      chrome.tabs.sendMessage(tabs[0].id, {sendback: returnText}, function(response) {});  
-  });
-
-  }
+function sendOpenPopup(selectedText) {
+  console.log("in backend");
+  var returnText = selectedText; //do actual translations though...
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    chrome.tabs.sendMessage(tabs[0].id, {sendback: returnText}, function(response) {});  
+});
+}
 
 function initBackground() {
-  // loadContentScriptInAllTabs();
-
   // var defaultKeyString = getDefaultKeyString();
   // var keyString = localStorage['speakKey'];
   // if (keyString == undefined) {

@@ -1,4 +1,3 @@
-debugger;
 var speakKeyStr;
 
 function speakSelection() {
@@ -36,14 +35,9 @@ function removeExtensionPopup(){
   $("#chromeextensionpopup").remove();
 }
 
+
 function showPopup(selectedText) {
-  /*
-  TODO:
-  Make the popup html here 
-  get the translate
-  display to popup html
-  */
-  console.log(selectedText.sendback);
+console.log(selectedText.sendback);
 
 var winpop = document.createElement("div");
 winpop.setAttribute("id", "chromeextensionpopup");
@@ -58,17 +52,19 @@ var textDisplay = document.createElement("div");
 textDisplay.setAttribute("id", "displaytextstyle");
 winpop.appendChild(textDisplay);
 textDisplay.innerText = selectedText.sendback;
-
+var speakerURL = chrome.extension.getURL('images/speaker.png');
+var img = "<img id='speakerImg' src="+ speakerURL +" />";
+// var $a = $("<a>", {id: "foo", "class": "a"});
+$('#displaytextstyle').prepend(img);
 
 /*
 TODO****
 1. make floating popup attached to word
-2. switching tabs
+2. speak voice
+3. Automate id's not hardcode
 */
+// document.getElementById("speakerImg").addEventListener("click", seeSelected(selectedText.sendback));
 document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
-
-
-
   // searchText(selectedText);
 }
 
@@ -93,7 +89,6 @@ function initcs() {
 
         var target = $(evt.target);    
         if (!target.parents('div#chromeextensionpopup').length) {
-          console.log('Your clicked element is having div#hello as parent');
           removeExtensionPopup();      
         }
       }
