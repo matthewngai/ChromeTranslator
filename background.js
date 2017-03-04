@@ -118,12 +118,6 @@ function initBackground() {
         }
       });
 
-  // chrome.browserAction.onClicked.addListener(
-  //     function(tab) {
-  //       chrome.tabs.sendRequest(
-  //           tab.id,
-  //           {'speakSelection': true});
-  //     });
 }
 
 initBackground();

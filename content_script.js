@@ -1,35 +1,4 @@
-var speakKeyStr;
-
-function speakSelection() {
-  var focused = document.activeElement;
-  var selectedText;
-  if (focused) {
-    try {
-      selectedText = focused.value.substring(
-          focused.selectionStart, focused.selectionEnd);
-    } catch (err) {
-    	console.log(err);
-    }
-  }
-  if (selectedText == undefined) {
-    var sel = window.getSelection();
-    var selectedText = sel.toString();
-    console.log(selectedText);
-  }
-  console.log(selectedText);
-  // chrome.extension.sendRequest({'showPopup': selectedText});
-}
-
-function onExtensionMessage(request) {
-  // if (request['speakSelection'] != undefined) {
-  //   if (!document.hasFocus()) {
-  //     return;
-  //   }
-  //   speakSelection();
-  // } else if (request['key'] != undefined) {
-  //   speakKeyStr = request['key'];
-  // }
-}
+var textToSpeak;
 
 function speakWords(selectedText) {
   chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
@@ -37,11 +6,12 @@ function speakWords(selectedText) {
 
 function removeExtensionPopup(){
   $("#chromeextensionpopup").remove();
-  chrome.runtime.sendMessage(null, {'closetts'});
+  chrome.runtime.sendMessage(null, {'closetts': "close"});
 }
 
 function showPopup(selectedText) {
 console.log(selectedText.sendback);
+textToSpeak = selectedText;
 
 var winpop = document.createElement("div");
 winpop.setAttribute("id", "chromeextensionpopup");
@@ -65,31 +35,29 @@ TODO****
 2. speak voice
 3. Automate id's not hardcode
 */
-document.getElementById("speakerImg").addEventListener("click", speakWords(selectedText.sendback));
-document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
+// document.getElementById("speakerImg").addEventListener("click", speakWords(selectedText.sendback));
+// document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
   // searchText(selectedText);
 }
 
 function initcs() {
-	// chrome.extension.onRequest.addListener(onExtensionMessage);
-	// chrome.extension.sendRequest({'init': true}, onExtensionMessage);
-
   chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg) {
-      console.log(msg);
-      // console.log(sender);
-      // console.log(sendResponse);
       showPopup(msg);
     }
   });
+
   document.addEventListener('click', function(evt) {
     parentElement = document.getElementById('chromeextensionpopup');
+    speakerElement = document.getElementById('speakerImg');
     try {
-      console.log(parentElement);
-      console.log(evt.target.id);
+      // console.log(parentElement);
+      // console.log(evt.target.id);
       if (evt.target.id != parentElement.id) {
         var target = $(evt.target);
-        if (!target.parents('div#chromeextensionpopup').length) {
+        if (target[0].id == 'speakerImg') {
+            speakWords(textToSpeak.sendback);
+        } else if (!target.parents('div#chromeextensionpopup').length) {
           removeExtensionPopup();
         }
       }
