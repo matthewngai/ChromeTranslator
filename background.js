@@ -48,6 +48,10 @@ var globalUtteranceIndex = 0;
 //   });
 // }
 
+function closetts() {
+  chrome.tts.stop();
+}
+
 function speak(utterance) {
   if (speaking && utterance == lastUtterance) {
     chrome.tts.stop();
@@ -64,6 +68,8 @@ function speak(utterance) {
   var volume = localStorage['volume'] || 1.0;
   var voice = localStorage['voice'];
 
+  console.log(utterance);
+  console.log(voice);
   chrome.tts.speak(
       utterance,
       {voiceName: voice,
@@ -84,7 +90,6 @@ function speak(utterance) {
 }
 
 function sendOpenPopup(selectedText) {
-  console.log("in backend");
   var returnText = selectedText; //do actual translations though...
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
     chrome.tabs.sendMessage(tabs[0].id, {sendback: returnText}, function(response) {});
@@ -102,14 +107,14 @@ function initBackground() {
 
   chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
-        console.log('inside passed');
         if (request['init']) {
           sendResponse({'key': localStorage['speakKey']});
         } else if (request['showPopup']) {
           sendOpenPopup(request['showPopup']);
-          // showPopup(request['showPopup']);
         } else if (request['speakWords']) {
           speak(request['speakWords']);
+        } else if (request['closetts']) {
+          closetts();
         }
       });
 

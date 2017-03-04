@@ -39,8 +39,8 @@
     });
   voice.addEventListener('change', function() {
     var i = voice.selectedIndex;
-    localStorage['ct_voice'] = voiceArray[i].voiceName;
-    console.log(localStorage['ct_voice']);
+    localStorage['voice'] = voiceArray[i].voiceName;
+    console.log(localStorage['voice']);
   }, false);
 }
 

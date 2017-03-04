@@ -37,6 +37,7 @@ function speakWords(selectedText) {
 
 function removeExtensionPopup(){
   $("#chromeextensionpopup").remove();
+  chrome.runtime.sendMessage(null, {'closetts'});
 }
 
 function showPopup(selectedText) {
@@ -64,7 +65,7 @@ TODO****
 2. speak voice
 3. Automate id's not hardcode
 */
-// document.getElementById("speakerImg").addEventListener("click", speakWords(selectedText.sendback));
+document.getElementById("speakerImg").addEventListener("click", speakWords(selectedText.sendback));
 document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
   // searchText(selectedText);
 }
@@ -76,8 +77,8 @@ function initcs() {
   chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg) {
       console.log(msg);
-      console.log(sender);
-      console.log(sendResponse);
+      // console.log(sender);
+      // console.log(sendResponse);
       showPopup(msg);
     }
   });
@@ -87,7 +88,6 @@ function initcs() {
       console.log(parentElement);
       console.log(evt.target.id);
       if (evt.target.id != parentElement.id) {
-
         var target = $(evt.target);
         if (!target.parents('div#chromeextensionpopup').length) {
           removeExtensionPopup();
@@ -95,15 +95,17 @@ function initcs() {
       }
     }
     catch(error) {
-      console.log(error);
+      // console.log(error);
     }
 
     var focused = document.activeElement;
     var selectedText;
     if (focused) {
       try {
-        selectedText = focused.value.substring(
-            focused.selectionStart, focused.selectionEnd);
+        if (focused.value) {
+          selectedText = focused.value.substring(
+              focused.selectionStart, focused.selectionEnd);
+        }
       } catch (err) {
         console.log(err);
       }
