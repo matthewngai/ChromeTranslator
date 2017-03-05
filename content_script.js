@@ -31,8 +31,10 @@ $('#displaytextstyle').prepend(img);
 /*
 TODO****
 1. make floating popup attached to word (first x, last x, [top or bottom y])
-2. format text and word limit
-3. Automate id's not hardcode
+2. check for localstorage
+3. format text and word limit
+4. use Yandex API 
+5. Automate id's not hardcode
 */
   // searchText(selectedText);
 }
