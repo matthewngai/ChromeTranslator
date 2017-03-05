@@ -66,6 +66,7 @@ function speak(utterance) {
   var rate = localStorage['rate'] || 1.0;
   var pitch = localStorage['pitch'] || 1.0;
   var volume = localStorage['volume'] || 1.0;
+  var genderSelected = localStorage['gender'] || 'female';
   var voice = localStorage['voice'];
 
   console.log(utterance);
@@ -73,6 +74,7 @@ function speak(utterance) {
   chrome.tts.speak(
       utterance,
       {voiceName: voice,
+       gender: genderSelected,
        rate: parseFloat(rate),
        pitch: parseFloat(pitch),
        volume: parseFloat(volume),

@@ -14,10 +14,10 @@
 
   function changeVoice() {
     if (voiceswitchtoggle.checked) {
-      console.log('Male');
+      localStorage['gender'] = 'male';
     }
     else {
-      console.log('Female');
+      localStorage['gender'] = 'female';
     }
   }
 

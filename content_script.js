@@ -30,7 +30,7 @@ $('#displaytextstyle').prepend(img);
 
 /*
 TODO****
-1. make floating popup attached to word!!
+1. make floating popup attached to word (first x, last x, [top or bottom y])
 2. format text and word limit
 3. Automate id's not hardcode
 */
