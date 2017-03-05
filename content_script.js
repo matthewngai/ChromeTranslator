@@ -47,9 +47,17 @@ function initcs() {
     }
   });
 
+  document.addEventListener("mouseup", function(event){
+    var parentElement = document.getElementById('chromeextensionpopup');
+    if(event.button == 0) {
+       var selection = window.getSelection().toString();
+       console.log(selection);
+     }
+
+  }, true);
   document.addEventListener('click', function(evt) {
-    parentElement = document.getElementById('chromeextensionpopup');
-    speakerElement = document.getElementById('speakerImg');
+    var parentElement = document.getElementById('chromeextensionpopup');
+    var speakerElement = document.getElementById('speakerImg');
     try {
       // console.log(parentElement);
       // console.log(evt.target.id);
