@@ -1,4 +1,10 @@
 var textToSpeak;
+var finalX;
+var finalY;
+var firstX;
+var lastX;
+var firstY;
+var lastY;
 
 function speakWords(selectedText) {
   chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
@@ -7,6 +13,11 @@ function speakWords(selectedText) {
 function removeExtensionPopup(){
   $("#chromeextensionpopup").remove();
   chrome.runtime.sendMessage(null, {'closetts': "close"});
+}
+
+function calculateXY() {
+  finalX = Math.max(firstX, lastX) - Math.min(firstX, lastX);
+  finalY = Math.max(firstY, lastY) - Math.min(firstY, lastY);
 }
 
 function showPopup(selectedText) {
@@ -30,10 +41,10 @@ $('#displaytextstyle').prepend(img);
 
 /*
 TODO****
-1. make floating popup attached to word (first x, last x, [top or bottom y])
+1. reclick on same textarea causes issues
 2. check for localstorage
 3. format text and word limit
-4. use Yandex API 
+4. use Yandex API
 5. Automate id's not hardcode
 */
   // searchText(selectedText);
@@ -42,11 +53,14 @@ TODO****
 function initcs() {
   chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg) {
+      calculateXY();
       showPopup(msg);
     }
   });
   document.addEventListener('mousedown', function(evt) {
     var parentElement = document.getElementById('chromeextensionpopup');
+    firstX = evt.clientX;
+    firstY = evt.clientY;
     try {
       if (evt.target.id != parentElement.id) {
         var target = $(evt.target);
@@ -62,6 +76,8 @@ function initcs() {
   document.addEventListener('mouseup', function(evt) {
     var parentElement = document.getElementById('chromeextensionpopup');
     var speakerElement = document.getElementById('speakerImg');
+    lastX = evt.clientX;
+    lastY = evt.clientY;
     try {
       if(event.button == 0) {
         try {
