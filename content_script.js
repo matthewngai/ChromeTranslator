@@ -10,7 +10,6 @@ function removeExtensionPopup(){
 }
 
 function showPopup(selectedText) {
-console.log(selectedText.sendback);
 textToSpeak = selectedText;
 
 var winpop = document.createElement("div");
@@ -31,12 +30,10 @@ $('#displaytextstyle').prepend(img);
 
 /*
 TODO****
-1. make floating popup attached to word
-2. speak voice
+1. make floating popup attached to word!!
+2. format text and word limit
 3. Automate id's not hardcode
 */
-// document.getElementById("speakerImg").addEventListener("click", speakWords(selectedText.sendback));
-// document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
   // searchText(selectedText);
 }
 
@@ -46,55 +43,61 @@ function initcs() {
       showPopup(msg);
     }
   });
-
-  document.addEventListener("mouseup", function(event){
+  document.addEventListener('mousedown', function(evt) {
     var parentElement = document.getElementById('chromeextensionpopup');
-    if(event.button == 0) {
-       var selection = window.getSelection().toString();
-       console.log(selection);
-     }
-
-  }, true);
-  document.addEventListener('click', function(evt) {
-    var parentElement = document.getElementById('chromeextensionpopup');
-    var speakerElement = document.getElementById('speakerImg');
     try {
-      // console.log(parentElement);
-      // console.log(evt.target.id);
       if (evt.target.id != parentElement.id) {
         var target = $(evt.target);
-        if (target[0].id == 'speakerImg') {
-            speakWords(textToSpeak.sendback);
-        } else if (!target.parents('div#chromeextensionpopup').length) {
+          if (!target.parents('div#chromeextensionpopup').length) {
           removeExtensionPopup();
         }
       }
-    }
-    catch(error) {
-      // console.log(error);
+    } catch (err) {
+      // console.log(err);
     }
 
-    var focused = document.activeElement;
-    var selectedText;
-    if (focused) {
-      try {
-        if (focused.value) {
-          selectedText = focused.value.substring(
-              focused.selectionStart, focused.selectionEnd);
+  });
+  document.addEventListener('mouseup', function(evt) {
+    var parentElement = document.getElementById('chromeextensionpopup');
+    var speakerElement = document.getElementById('speakerImg');
+    try {
+      if(event.button == 0) {
+        try {
+          if (evt.target.id != parentElement.id) {
+            var target = $(evt.target);
+            if (target[0].id == 'speakerImg') {
+                speakWords(textToSpeak.sendback);
+            } else if (!target.parents('div#chromeextensionpopup').length) {
+              removeExtensionPopup();
+            }
+          }
         }
-      } catch (err) {
-        console.log(err);
+        catch(error) {
+          // console.log(error);
+        }
+        var focused = document.activeElement;
+        var selectedText;
+        if (focused) {
+          try {
+            if (focused.value) {
+              selectedText = focused.value.substring(
+                  focused.selectionStart, focused.selectionEnd);
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        }
+        if (selectedText == undefined) {
+          var sel = window.getSelection();
+          var selectedText = sel.toString();
+          if (selectedText.trim() && !parentElement) {
+          	chrome.runtime.sendMessage(null, {'showPopup' : selectedText});
+          }
+        }
       }
-    }
-    if (selectedText == undefined) {
-      var sel = window.getSelection();
-      var selectedText = sel.toString();
-      if (selectedText.trim() && !parentElement) {
-      	chrome.runtime.sendMessage(null, {'showPopup' : selectedText});
-      }
+    } catch (err) {
+      console.log(err);
     }
   });
-
 }
-
 initcs();
