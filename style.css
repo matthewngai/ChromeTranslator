@@ -1,14 +1,19 @@
 #chromeextensionpopup{
     background: white;
     border: solid 1px #bbbbbb;
-    line-height: 25px;
+    line-height: 17px;
     position: absolute;
     right: 20px;
     text-align: center;
     top: 20px;
-    width: 100px;
+    max-width: 450px;
+    width: 150px;
+    max-height: 325px;
+    overflow: auto;
     z-index: 999999999;
-    /*position: relative;*/
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 1px 1px 1px #888888;
+    padding: 10px;
 }
 
 #chromeextensionpopupcloselink{

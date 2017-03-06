@@ -39,9 +39,7 @@ function calculateXY() {
                 topPos  = rect.top +  scrollTop - clientTop;
                 var left = rect.left + scrollLeft - clientLeft;
 
-                // width = rect.right - rect.left;
                 middleHorizontal = (rect.right - rect.left)/2 + rect.left;
-                // height = rect.bottom - rect.top;
                 vertical = (rect.bottom - rect.top)/2 + rect.top;
                 winHeightMid = $(window).height() / 2;
             }
@@ -58,7 +56,6 @@ function calculateXY() {
     }
     console.log(finalVert);
     finalHoriz = middleHorizontal;
-    // return { width: width , height: height };
 }
 
 function showPopup(selectedText) {
@@ -85,7 +82,7 @@ $('#displaytextstyle').prepend(img);
 
 /*
 TODO****
-0. check scroll position
+
 1. reclick on same textarea causes issues
 2. check for localstorage
 3. format text and word limit
