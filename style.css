@@ -1,6 +1,6 @@
 #chromeextensionpopup{
     background: white;
-    border: solid 3px black;
+    border: solid 1px #bbbbbb;
     line-height: 25px;
     position: absolute;
     right: 20px;

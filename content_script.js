@@ -2,6 +2,7 @@ var textToSpeak;
 var finalVert;
 var finalHoriz;
 var showOnTop = 0;
+var topPos;
 
 function speakWords(selectedText) {
   chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
@@ -27,22 +28,35 @@ function calculateXY() {
             range = sel.getRangeAt(0).cloneRange();
             if (range.getBoundingClientRect) {
                 var rect = range.getBoundingClientRect();
-                width = rect.right - rect.left;
+                var body = document.body;
+                var docEl = document.documentElement;
+
+                var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+                var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+                var clientTop = docEl.clientTop || body.clientTop || 0;
+                var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+                topPos  = rect.top +  scrollTop - clientTop;
+                var left = rect.left + scrollLeft - clientLeft;
+
+                // width = rect.right - rect.left;
                 middleHorizontal = (rect.right - rect.left)/2 + rect.left;
-                height = rect.bottom - rect.top;
+                // height = rect.bottom - rect.top;
                 vertical = (rect.bottom - rect.top)/2 + rect.top;
                 winHeightMid = $(window).height() / 2;
-
             }
         }
     }
+    console.log(vertical);
+    console.log(winHeightMid);
     if (vertical > winHeightMid) {
-      finalVert = rect.top;
+      finalVert = topPos;
       showOnTop = 1;
     } else {
-      finalVert = rect.bottom;
+      finalVert = topPos + (rect.bottom - rect.top);
       showOnTop = 0;
     }
+    console.log(finalVert);
     finalHoriz = middleHorizontal;
     // return { width: width , height: height };
 }
