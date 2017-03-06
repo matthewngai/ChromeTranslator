@@ -29,7 +29,7 @@
     for (var i = 0; i < voiceArray.length; i++) {
       var opt = document.createElement('option');
       var name = voiceArray[i].voiceName;
-      if (name == localStorage['ct_voice']) {
+      if (name == localStorage['voice']) {
         opt.setAttribute('selected', '');
       }
       opt.setAttribute('value', name);
