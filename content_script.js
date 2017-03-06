@@ -1,7 +1,7 @@
 var textToSpeak;
-var finalX;
-var finalY;
-var finalMid;
+var finalVert;
+var finalHoriz;
+var showOnTop = 0;
 
 function speakWords(selectedText) {
   chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
@@ -14,7 +14,7 @@ function removeExtensionPopup(){
 
 function calculateXY() {
     var sel = document.selection, range;
-    var width = 0, height = 0, middle = 0;
+    var width = 0, height = 0, middleHorizontal = 0, winHeightMid = 0, vertical = 0;
     if (sel) {
         if (sel.type != "Control") {
             range = sel.createRange();
@@ -28,14 +28,22 @@ function calculateXY() {
             if (range.getBoundingClientRect) {
                 var rect = range.getBoundingClientRect();
                 width = rect.right - rect.left;
-                middle = (rect.right - rect.left)/2 + rect.left;
+                middleHorizontal = (rect.right - rect.left)/2 + rect.left;
                 height = rect.bottom - rect.top;
+                vertical = (rect.bottom - rect.top)/2 + rect.top;
+                winHeightMid = $(window).height() / 2;
+
             }
         }
     }
-    finalX = width;
-    finalMid = middle;
-    finalY = height;
+    if (vertical > winHeightMid) {
+      finalVert = rect.top;
+      showOnTop = 1;
+    } else {
+      finalVert = rect.bottom;
+      showOnTop = 0;
+    }
+    finalHoriz = middleHorizontal;
     // return { width: width , height: height };
 }
 
@@ -44,6 +52,9 @@ textToSpeak = selectedText;
 
 var winpop = document.createElement("div");
 winpop.setAttribute("id", "chromeextensionpopup");
+winpop.style.left = finalHoriz+'px';
+winpop.style.top = finalVert+'px';
+//add something to trigger showtop or show bottom
 document.body.appendChild(winpop);
 var closelink = document.createElement("div");
 closelink.setAttribute("id", "chromeextensionpopupcloselink");
@@ -96,8 +107,7 @@ function initcs() {
   document.addEventListener('mouseup', function(evt) {
     var parentElement = document.getElementById('chromeextensionpopup');
     var speakerElement = document.getElementById('speakerImg');
-    lastX = evt.clientX;
-    lastY = evt.clientY;
+
     try {
       if(event.button == 0) {
         try {
