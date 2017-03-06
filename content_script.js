@@ -74,7 +74,7 @@ document.getElementById("chromeextensionpopup").appendChild(closelink);
 var textDisplay = document.createElement("div");
 textDisplay.setAttribute("id", "displaytextstyle");
 winpop.appendChild(textDisplay);
-textDisplay.innerText = selectedText.sendback;
+textDisplay.innerText = selectedText.sendback.replace(/(\r\n|\n|\r)/gm, " ");
 var speakerURL = chrome.extension.getURL('images/speaker.png');
 var img = "<img id='speakerImg' src="+ speakerURL +" />";
 // var $a = $("<a>", {id: "foo", "class": "a"});
