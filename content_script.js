@@ -1,10 +1,7 @@
 var textToSpeak;
 var finalX;
 var finalY;
-var firstX;
-var lastX;
-var firstY;
-var lastY;
+var finalMid;
 
 function speakWords(selectedText) {
   chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
@@ -16,8 +13,30 @@ function removeExtensionPopup(){
 }
 
 function calculateXY() {
-  finalX = Math.max(firstX, lastX) - Math.min(firstX, lastX);
-  finalY = Math.max(firstY, lastY) - Math.min(firstY, lastY);
+    var sel = document.selection, range;
+    var width = 0, height = 0, middle = 0;
+    if (sel) {
+        if (sel.type != "Control") {
+            range = sel.createRange();
+            width = range.boundingWidth;
+            height = range.boundingHeight;
+        }
+    } else if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.rangeCount) {
+            range = sel.getRangeAt(0).cloneRange();
+            if (range.getBoundingClientRect) {
+                var rect = range.getBoundingClientRect();
+                width = rect.right - rect.left;
+                middle = (rect.right - rect.left)/2 + rect.left;
+                height = rect.bottom - rect.top;
+            }
+        }
+    }
+    finalX = width;
+    finalMid = middle;
+    finalY = height;
+    // return { width: width , height: height };
 }
 
 function showPopup(selectedText) {
@@ -41,6 +60,7 @@ $('#displaytextstyle').prepend(img);
 
 /*
 TODO****
+0. check scroll position
 1. reclick on same textarea causes issues
 2. check for localstorage
 3. format text and word limit
