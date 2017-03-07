@@ -79,23 +79,13 @@ var speakerURL = chrome.extension.getURL('images/speaker.png');
 var img = "<img id='speakerImg' src="+ speakerURL +" />";
 // var $a = $("<a>", {id: "foo", "class": "a"});
 $('#displaytextstyle').prepend(img);
-
-/*
-TODO****
-1. reclick on same textarea causes issues
-2. check for localstorage
-3. format text and word limit
-*/
+}
+function activateListeners() {
+  document.addEventListener('mousedown', onMouseDown);
+  document.addEventListener('mouseup', onMouseUp);
 }
 
-function initcs() {
-  chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
-    if (msg) {
-      calculateXY();
-      showPopup(msg);
-    }
-  });
-  document.addEventListener('mousedown', function(evt) {
+function onMouseDown(evt) {
     var parentElement = document.getElementById('chromeextensionpopup');
     firstX = evt.clientX;
     firstY = evt.clientY;
@@ -109,12 +99,11 @@ function initcs() {
     } catch (err) {
       // console.log(err);
     }
+}
 
-  });
-  document.addEventListener('mouseup', function(evt) {
+function onMouseUp(evt) {
     var parentElement = document.getElementById('chromeextensionpopup');
     var speakerElement = document.getElementById('speakerImg');
-
     try {
       if(event.button == 0) {
         try {
@@ -146,12 +135,38 @@ function initcs() {
           var sel = window.getSelection();
           var selectedText = sel.toString();
           if (selectedText.trim() && !parentElement) {
-          	chrome.runtime.sendMessage(null, {'showPopup' : selectedText});
+            chrome.runtime.sendMessage(null, {'showPopup' : selectedText});
           }
         }
       }
     } catch (err) {
       console.log(err);
+    }
+}
+
+function deactivateListeners() {
+  try {
+    removeExtensionPopup();
+    document.removeEventListener('mouseup', onMouseUp);
+    document.removeEventListener('mousedown', onMouseDown);
+    documentStatus();
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+function initcs() {
+  chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+    if (msg.toggle) {
+      if (msg.toggle == 'On') {
+        activateListeners();
+      } else {
+        deactivateListeners();
+      }
+    }
+    else if (msg) {
+      calculateXY();
+      showPopup(msg);
     }
   });
 }

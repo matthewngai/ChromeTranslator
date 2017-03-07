@@ -18,11 +18,18 @@
       document.getElementById("onoffswitchtoggle").innerHTML = 'Off';
       document.getElementById("voiceswitchtoggle").disabled = true;
       document.getElementById("voiceChromeTranslator").disabled = true;
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+          chrome.tabs.sendMessage(tabs[0].id, {toggle: 'Off'}, function(response) {});
+      });
     } else {
       localStorage['switch'] = 'On';
       document.getElementById("onoffswitchtoggle").innerHTML = 'On';
       document.getElementById("voiceswitchtoggle").disabled = false;
       document.getElementById("voiceChromeTranslator").disabled = false;
+
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+          chrome.tabs.sendMessage(tabs[0].id, {toggle: 'On'}, function(response) {});
+      });
     }
   }
 
@@ -41,7 +48,7 @@
       opt.innerText = voiceArray[i].voiceName;
       voice.appendChild(opt);
     }
-    });
+  });
   voice.addEventListener('change', function() {
     var i = voice.selectedIndex;
     localStorage['voice'] = voiceArray[i].voiceName;
@@ -57,12 +64,26 @@ function loadListeners() {
   if (localStorage["switch"] == 'Off') {
     document.getElementById("voiceswitchtoggle").disabled = true;
     document.getElementById("voiceChromeTranslator").disabled = true;
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id, {toggle: localStorage["switch"]}, function(response) {});
+    });
   } else {
     document.getElementById("voiceswitchtoggle").disabled = false;
     document.getElementById("voiceChromeTranslator").disabled = false;
+    
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id, {toggle: 'Off'}, function(response) {});
+    });
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id, {toggle: localStorage["switch"]}, function(response) {});
+    });
   }
   document.getElementById("onoffswitchtoggle").addEventListener('click', switchButton);
   document.getElementById("voiceswitchtoggle").addEventListener('click', switchVoice);
+
+
+
   getVoiceLang();
 }
 

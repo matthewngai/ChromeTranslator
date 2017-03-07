@@ -1,27 +1,27 @@
 var keyMap;
-  function bingTrans(url, text, resultCallback, errorCallback) {
-    var rn = Math.floor((Math.random() * 100000) + 1);
-    var data = "[{id: " + rn + ", text: \"" + text + "\"}]";
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText);
-        var rs = JSON.parse(this.responseText);
-        var textData = rs.items[0].text;
-        resultCallback(textData);
-      }
-    });
-
-    xhr.open("POST", url);
-    xhr.setRequestHeader("content-type", "application/json");
-    xhr.setRequestHeader("cache-control", "no-cache");
-
-    xhr.onerror = function() {
-      errorCallback('Network error: ' + xhr.status + xhr.responseText);
-    };
-    xhr.send(data);
-  }
+  // function bingTrans(url, text, resultCallback, errorCallback) {
+  //   var rn = Math.floor((Math.random() * 100000) + 1);
+  //   var data = "[{id: " + rn + ", text: \"" + text + "\"}]";
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.withCredentials = true;
+  //   xhr.addEventListener("readystatechange", function () {
+  //     if (this.readyState === 4) {
+  //       console.log(this.responseText);
+  //       var rs = JSON.parse(this.responseText);
+  //       var textData = rs.items[0].text;
+  //       resultCallback(textData);
+  //     }
+  //   });
+  //
+  //   xhr.open("POST", url);
+  //   xhr.setRequestHeader("content-type", "application/json");
+  //   xhr.setRequestHeader("cache-control", "no-cache");
+  //
+  //   xhr.onerror = function() {
+  //     errorCallback('Network error: ' + xhr.status + xhr.responseText);
+  //   };
+  //   xhr.send(data);
+  // }
 
 // function searchText(selectedText) {
 //     var lang = "yue";
@@ -47,9 +47,7 @@ function yandexTrans(url, resultCallback, errorCallback) {
       "cache-control": "no-cache"
     }
   }
-
   $.ajax(settings).done(function (response) {
-    console.log(response.text[0]);
     resultCallback(response.text[0]);
   });
 }
@@ -73,13 +71,6 @@ var lastUtterance = '';
 var speaking = false;
 var globalUtteranceIndex = 0;
 
-// if (localStorage['lastVersionUsed'] != '1') {
-//   localStorage['lastVersionUsed'] = '1';
-//   chrome.tabs.create({
-//     url: chrome.extension.getURL('options.html')
-//   });
-// }
-
 function closetts() {
   chrome.tts.stop();
 }
@@ -101,8 +92,6 @@ function speak(utterance) {
   var genderSelected = localStorage['gender'] || 'female';
   var voice = localStorage['voice'];
 
-  console.log(utterance);
-  console.log(voice);
   chrome.tts.speak(
       utterance,
       {voiceName: voice,
@@ -129,14 +118,6 @@ function sendOpenPopup(selectedText) {
 }
 
 function initBackground() {
-  // var defaultKeyString = getDefaultKeyString();
-  // var keyString = localStorage['speakKey'];
-  // if (keyString == undefined) {
-  //   keyString = defaultKeyString;
-  //   localStorage['speakKey'] = keyString;
-  // }
-  // sendKeyToAllTabs(keyString);
-
   keyMap = {
   'Google Deutsch': 'de',
   'Google US English': 'en',
@@ -160,9 +141,11 @@ function initBackground() {
 };
   chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
-        if (request['init']) {
-          sendResponse({'key': localStorage['speakKey']});
-        } else if (request['showPopup']) {
+        if (!localStorage["switch"]) {
+          return;
+        } else if (localStorage["switch"] == 'Off') {
+          return;
+        }else if (request['showPopup']) {
           sendOpenPopup(request['showPopup']);
         } else if (request['speakWords']) {
           speak(request['speakWords']);
