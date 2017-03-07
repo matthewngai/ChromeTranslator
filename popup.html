@@ -82,13 +82,13 @@
         right: 41px;
         /*border: 2px solid #ffffff;*/
         border-radius: 12px;
-        transition: all 0.3s ease-in 0s; 
+        transition: all 0.3s ease-in 0s;
       }
       .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
         margin-left: 0;
       }
       .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-          right: 0px; 
+          right: 0px;
       }
       /*Male female voce button*/
       .voiceswitch {
@@ -151,13 +151,13 @@
         right: 62px;
         /*border: 2px solid #ffffff; */
         border-radius: 12px;
-        transition: all 0.3s ease-in 0s; 
+        transition: all 0.3s ease-in 0s;
       }
       .voiceswitch-checkbox:checked + .voiceswitch-label .voiceswitch-inner {
           margin-left: 0;
       }
       .voiceswitch-checkbox:checked + .voiceswitch-label .voiceswitch-switch {
-          right: 0px; 
+          right: 0px;
       }
       .paddingPopup {
         padding-top: 4px;
@@ -179,50 +179,29 @@
       }
     </style>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
     <script src="/popup.js"></script>
     <script src="/content_script.js"></script>
   </head>
   <body>
-    <div id="myFrame">    
+    <div id="myFrame">
       <div>Chrome Translator</div>
       <div class="paddingSeperator"></div>
       <div class="spacingTop"></div>
       <div id="status">
-        
-        <div class="onoffswitch">
-          <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchtoggle">
-          <label class="onoffswitch-label" for="onoffswitchtoggle">
-              <span class="onoffswitch-inner"></span>
-              <span class="onoffswitch-switch"></span>
-          </label>
-        </div>
+
+        <button id="onoffswitchtoggle"></button>
 
         <div class="paddingPopup"></div>
 
-        <label>Voice:</label>
-        <div class="voiceswitch">
-          <input type="checkbox" name="voiceswitch" class="voiceswitch-checkbox" id="voiceswitchtoggle">
-          <label class="voiceswitch-label" for="voiceswitchtoggle">
-              <span class="voiceswitch-inner"></span>
-              <span class="voiceswitch-switch"></span>
-          </label>
-        </div>
-
+        <button id="voiceswitchtoggle"></button>
       <div class="voice_label">
         <label for="voice">Language:</label>
       </div>
       <div class="">
-        <select id="voice" class="voice_wrap"></select>
+        <select id="voiceChromeTranslator" class="voice_wrap"></select>
       </div>
 
       </div>
     </div>
   </body>
 </html>
-

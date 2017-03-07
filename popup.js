@@ -1,28 +1,33 @@
   function renderStatus(statusText) {
     document.getElementById('status').textContent = statusText;
   }
-  function changeHandler() {
-    //turn on
-    if (onoffswitchtoggle.checked) {
-      console.log('ON');
-    }
-    //turn off
-    else  {
-      console.log('OFF');
+
+  function switchVoice() {
+    if (localStorage['gender'] == 'male') {
+      localStorage['gender'] = 'female';
+      document.getElementById("voiceswitchtoggle").innerHTML = 'female';
+    } else {
+      localStorage['gender'] = 'male';
+      document.getElementById("voiceswitchtoggle").innerHTML = 'male';
     }
   }
 
-  function changeVoice() {
-    if (voiceswitchtoggle.checked) {
-      localStorage['gender'] = 'male';
-    }
-    else {
-      localStorage['gender'] = 'female';
+  function switchButton() {
+    if (localStorage['switch'] == 'On') {
+      localStorage['switch'] = 'Off';
+      document.getElementById("onoffswitchtoggle").innerHTML = 'Off';
+      document.getElementById("voiceswitchtoggle").disabled = true;
+      document.getElementById("voiceChromeTranslator").disabled = true;
+    } else {
+      localStorage['switch'] = 'On';
+      document.getElementById("onoffswitchtoggle").innerHTML = 'On';
+      document.getElementById("voiceswitchtoggle").disabled = false;
+      document.getElementById("voiceChromeTranslator").disabled = false;
     }
   }
 
   function getVoiceLang() {
-  var voice = document.getElementById('voice');
+  var voice = document.getElementById('voiceChromeTranslator');
   var voiceArray = [];
   chrome.tts.getVoices(function(va) {
     voiceArray = va;
@@ -45,8 +50,19 @@
 }
 
 function loadListeners() {
-  document.getElementById("onoffswitchtoggle").addEventListener('click', changeHandler);
-  document.getElementById("voiceswitchtoggle").addEventListener('click', changeVoice);
+  document.getElementById("onoffswitchtoggle").innerHTML = localStorage["switch"] || 'Off';
+  localStorage["switch"] = localStorage["switch"] || 'Off';
+  document.getElementById("voiceswitchtoggle").innerHTML = localStorage["gender"] || 'female';
+  localStorage["gender"] = localStorage["gender"] || 'female';
+  if (localStorage["switch"] == 'Off') {
+    document.getElementById("voiceswitchtoggle").disabled = true;
+    document.getElementById("voiceChromeTranslator").disabled = true;
+  } else {
+    document.getElementById("voiceswitchtoggle").disabled = false;
+    document.getElementById("voiceChromeTranslator").disabled = false;
+  }
+  document.getElementById("onoffswitchtoggle").addEventListener('click', switchButton);
+  document.getElementById("voiceswitchtoggle").addEventListener('click', switchVoice);
   getVoiceLang();
 }
 
