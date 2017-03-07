@@ -79,11 +79,6 @@ var speakerURL = chrome.extension.getURL('images/speaker.png');
 var img = "<img id='speakerImg' src="+ speakerURL +" />";
 // var $a = $("<a>", {id: "foo", "class": "a"});
 $('#displaytextstyle').prepend(img);
-
-/*
-TODO****
-1. format text and word limit
-*/
 }
 function activateListeners() {
   document.addEventListener('mousedown', onMouseDown);
