@@ -1,27 +1,27 @@
 var keyMap;
-  function bingTrans(url, text, resultCallback, errorCallback) {
-    var rn = Math.floor((Math.random() * 100000) + 1);
-    var data = "[{id: " + rn + ", text: \"" + text + "\"}]";
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText);
-        var rs = JSON.parse(this.responseText);
-        var textData = rs.items[0].text;
-        resultCallback(textData);
-      }
-    });
-
-    xhr.open("POST", url);
-    xhr.setRequestHeader("content-type", "application/json");
-    xhr.setRequestHeader("cache-control", "no-cache");
-
-    xhr.onerror = function() {
-      errorCallback('Network error: ' + xhr.status + xhr.responseText);
-    };
-    xhr.send(data);
-  }
+  // function bingTrans(url, text, resultCallback, errorCallback) {
+  //   var rn = Math.floor((Math.random() * 100000) + 1);
+  //   var data = "[{id: " + rn + ", text: \"" + text + "\"}]";
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.withCredentials = true;
+  //   xhr.addEventListener("readystatechange", function () {
+  //     if (this.readyState === 4) {
+  //       console.log(this.responseText);
+  //       var rs = JSON.parse(this.responseText);
+  //       var textData = rs.items[0].text;
+  //       resultCallback(textData);
+  //     }
+  //   });
+  //
+  //   xhr.open("POST", url);
+  //   xhr.setRequestHeader("content-type", "application/json");
+  //   xhr.setRequestHeader("cache-control", "no-cache");
+  //
+  //   xhr.onerror = function() {
+  //     errorCallback('Network error: ' + xhr.status + xhr.responseText);
+  //   };
+  //   xhr.send(data);
+  // }
 
 // function searchText(selectedText) {
 //     var lang = "yue";
@@ -47,9 +47,7 @@ function yandexTrans(url, resultCallback, errorCallback) {
       "cache-control": "no-cache"
     }
   }
-
   $.ajax(settings).done(function (response) {
-    console.log(response.text[0]);
     resultCallback(response.text[0]);
   });
 }
@@ -94,8 +92,6 @@ function speak(utterance) {
   var genderSelected = localStorage['gender'] || 'female';
   var voice = localStorage['voice'];
 
-  console.log(utterance);
-  console.log(voice);
   chrome.tts.speak(
       utterance,
       {voiceName: voice,

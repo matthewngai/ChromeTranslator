@@ -149,10 +149,6 @@ function onMouseUp(evt) {
     }
 }
 
-function documentStatus() {
-  console.log(document);
-}
-
 function deactivateListeners() {
   try {
     removeExtensionPopup();
@@ -166,14 +162,10 @@ function deactivateListeners() {
 
 function initcs() {
   chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
-    console.log(msg);
-    console.log(sender);
-    console.log(sendResponse);
     if (msg.toggle) {
       if (msg.toggle == 'On') {
         activateListeners();
       } else {
-        console.log("DEACTIVATE");
         deactivateListeners();
       }
     }
