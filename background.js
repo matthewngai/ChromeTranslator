@@ -23,18 +23,25 @@
     xhr.send(data);
   }
 
+  function yandexTrans() {
+
+  }
+
 function searchText(selectedText) {
     var lang = "yue";
     var myUrl_t = "http://www.bing.com/translator/api/Translate/TranslateArray?from=-&to=" + lang;
     var finalText = 'Hello';
-    bingTrans(myUrl_t, selectedText,
-    function(resultCallback) {
-      finalText = resultCallback;	//after from yandex
-      //call function inside result callback
-    },
-    function(errorMessage) {
-      renderStatus('Cannot translate: ' + errorMessage);
-    });
+    // bingTrans(myUrl_t, selectedText,
+    // function(resultCallback) {
+    //   finalText = resultCallback;	//after from yandex
+    //   //call function inside result callback
+    // },
+    // function(errorMessage) {
+    //   renderStatus('Cannot translate: ' + errorMessage);
+    // });
+
+    var key = "trnsl.1.1.20160821T044313Z.8fbdeed9f777bcbc.8bf304d8532c781d6e8f52dc8df4d3f833166087";
+    var yandex = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" + key+ "&text=" + selectedText+ "&lang="
 }
 
 var lastUtterance = '';
