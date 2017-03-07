@@ -82,14 +82,10 @@ $('#displaytextstyle').prepend(img);
 
 /*
 TODO****
-
 1. reclick on same textarea causes issues
 2. check for localstorage
 3. format text and word limit
-4. use Yandex API
-5. Automate id's not hardcode
 */
-  // searchText(selectedText);
 }
 
 function initcs() {
