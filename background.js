@@ -73,13 +73,6 @@ var lastUtterance = '';
 var speaking = false;
 var globalUtteranceIndex = 0;
 
-// if (localStorage['lastVersionUsed'] != '1') {
-//   localStorage['lastVersionUsed'] = '1';
-//   chrome.tabs.create({
-//     url: chrome.extension.getURL('options.html')
-//   });
-// }
-
 function closetts() {
   chrome.tts.stop();
 }
@@ -129,14 +122,6 @@ function sendOpenPopup(selectedText) {
 }
 
 function initBackground() {
-  // var defaultKeyString = getDefaultKeyString();
-  // var keyString = localStorage['speakKey'];
-  // if (keyString == undefined) {
-  //   keyString = defaultKeyString;
-  //   localStorage['speakKey'] = keyString;
-  // }
-  // sendKeyToAllTabs(keyString);
-
   keyMap = {
   'Google Deutsch': 'de',
   'Google US English': 'en',
@@ -160,9 +145,11 @@ function initBackground() {
 };
   chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
-        if (request['init']) {
-          sendResponse({'key': localStorage['speakKey']});
-        } else if (request['showPopup']) {
+        if (!localStorage["switch"]) {
+          return;
+        } else if (localStorage["switch"] == 'Off') {
+          return;
+        }else if (request['showPopup']) {
           sendOpenPopup(request['showPopup']);
         } else if (request['speakWords']) {
           speak(request['speakWords']);

@@ -82,9 +82,7 @@ $('#displaytextstyle').prepend(img);
 
 /*
 TODO****
-1. reclick on same textarea causes issues
-2. check for localstorage
-3. format text and word limit
+1. format text and word limit
 */
 }
 function activateListeners() {
@@ -93,7 +91,6 @@ function activateListeners() {
 }
 
 function onMouseDown(evt) {
-
     var parentElement = document.getElementById('chromeextensionpopup');
     firstX = evt.clientX;
     firstY = evt.clientY;
@@ -107,11 +104,9 @@ function onMouseDown(evt) {
     } catch (err) {
       // console.log(err);
     }
-
 }
 
 function onMouseUp(evt) {
-
     var parentElement = document.getElementById('chromeextensionpopup');
     var speakerElement = document.getElementById('speakerImg');
     try {
@@ -152,7 +147,6 @@ function onMouseUp(evt) {
     } catch (err) {
       console.log(err);
     }
-
 }
 
 function documentStatus() {
@@ -188,6 +182,5 @@ function initcs() {
       showPopup(msg);
     }
   });
-
 }
 initcs();
