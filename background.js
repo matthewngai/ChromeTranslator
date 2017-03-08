@@ -119,6 +119,7 @@ function sendOpenPopup(selectedText) {
 
 function initBackground() {
   keyMap = {
+  'native': 'en',
   'Google Deutsch': 'de',
   'Google US English': 'en',
   'Google UK English Female': 'en',
