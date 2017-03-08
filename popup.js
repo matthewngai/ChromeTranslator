@@ -21,7 +21,7 @@
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
           chrome.tabs.sendMessage(tabs[0].id, {toggle: 'Off'}, function(response) {});
       });
-    } else {
+    } else if (localStorage['switch'] == 'Off') {
       localStorage['switch'] = 'On';
       document.getElementById("onoffswitchtoggle").innerHTML = 'On';
       document.getElementById("voiceswitchtoggle").disabled = false;
@@ -30,6 +30,11 @@
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
           chrome.tabs.sendMessage(tabs[0].id, {toggle: 'On'}, function(response) {});
       });
+    } else {
+      localStorage['switch'] = 'Off';
+      document.getElementById("onoffswitchtoggle").innerHTML = 'Off';
+      document.getElementById("voiceswitchtoggle").disabled = true;
+      document.getElementById("voiceChromeTranslator").disabled = true;
     }
   }
 
@@ -59,6 +64,7 @@
 function loadListeners() {
   document.getElementById("onoffswitchtoggle").innerHTML = localStorage["switch"] || 'Off';
   localStorage["switch"] = localStorage["switch"] || 'Off';
+  console.log(localStorage["switch"]);
   document.getElementById("voiceswitchtoggle").innerHTML = localStorage["gender"] || 'female';
   localStorage["gender"] = localStorage["gender"] || 'female';
   if (localStorage["switch"] == 'Off') {
@@ -68,10 +74,9 @@ function loadListeners() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         chrome.tabs.sendMessage(tabs[0].id, {toggle: localStorage["switch"]}, function(response) {});
     });
-  } else {
+  } else if (localStorage["switch"] == 'On') {
     document.getElementById("voiceswitchtoggle").disabled = false;
     document.getElementById("voiceChromeTranslator").disabled = false;
-    
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         chrome.tabs.sendMessage(tabs[0].id, {toggle: 'Off'}, function(response) {});
     });
@@ -79,11 +84,17 @@ function loadListeners() {
         chrome.tabs.sendMessage(tabs[0].id, {toggle: localStorage["switch"]}, function(response) {});
     });
   }
+  else {
+    console.log('here');
+    document.getElementById("voiceswitchtoggle").disabled = true;
+    document.getElementById("voiceChromeTranslator").disabled = true;
+    localStorage["switch"] = 'Off';
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {toggle: 'Off'}, function(response) {});
+    });
+  }
   document.getElementById("onoffswitchtoggle").addEventListener('click', switchButton);
   document.getElementById("voiceswitchtoggle").addEventListener('click', switchVoice);
-
-
-
   getVoiceLang();
 }
 

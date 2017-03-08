@@ -162,7 +162,15 @@ function deactivateListeners() {
 }
 
 function initcs() {
+  chrome.runtime.sendMessage(null, {'getSwitch' : 'status'});
+
   chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+    if (msg.switchback) {
+      console.log(msg.switchback);
+      if (msg.switchback == 'On') {
+        activateListeners();
+      }
+    }
     if (msg.toggle) {
       if (msg.toggle == 'On') {
         activateListeners();
