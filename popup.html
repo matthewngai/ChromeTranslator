@@ -8,7 +8,7 @@
     <title>Chrome Translator</title>
     <style>
       body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-family: "Comic Sans MS", cursive, sans-serif;
         font-size: 100%;
       }
       #status {
@@ -22,142 +22,18 @@
         max-width: 300px;
         min-width: 170px;
       }
-      /*On Off button*/
-      .onoffswitch {
-        position: relative;
-        width: 59px;
-        left: 110px;
-        -webkit-user-select:none;
-        -moz-user-select:none;
-        -ms-user-select: none;
-      }
-      .onoffswitch-checkbox {
-          display: none;
-      }
-      .onoffswitch-label {
-        display: block;
-        overflow: hidden;
-        cursor: pointer;
-        /*border: 2px solid #d8d9db;*/
-        border-radius: 12px;
-      }
-      .onoffswitch-inner {
-        display: block;
-        width: 200%;
-        margin-left: -100%;
-        transition: margin 0.3s ease-in 0s;
-      }
-      .onoffswitch-inner:before, .onoffswitch-inner:after {
-        display: block;
-        float: left;
-        width: 50%;
-        height: 18px;
-        padding: 0;
-        line-height: 18px;
-        font-size: 12px;
-        color: white;
-        font-family: Trebuchet, Arial, sans-serif;
-        font-weight: bold;
-        box-sizing: border-box;
-      }
-      .onoffswitch-inner:before {
-        content: "On";
-        padding-left: 10px;
-        background-color: #4bd865; color: #FFFFFF;
-      }
-      .onoffswitch-inner:after {
-        content: "Off";
-        padding-right: 10px;
-        background-color: #d8d9db; color: #999999;
-        text-align: right;
-      }
-      .onoffswitch-switch {
-        display: block;
-        width: 16px;
-        margin: 1px;
-        background: #ffffff;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 41px;
-        /*border: 2px solid #ffffff;*/
-        border-radius: 12px;
-        transition: all 0.3s ease-in 0s;
-      }
-      .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-        margin-left: 0;
-      }
-      .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-          right: 0px;
-      }
-      /*Male female voce button*/
-      .voiceswitch {
-        position: relative;
-        width: 80px;
-        left: 90px;
-        -webkit-user-select:none;
-        -moz-user-select:none;
-        -ms-user-select: none;
-      }
-      .voiceswitch-checkbox {
-        display: none;
-      }
-      .voiceswitch-label {
-        display: block;
-        overflow: hidden;
-        cursor: pointer;
-        /*border: 2px solid #42b6f1;*/
-        border-radius: 12px;
-      }
-      .voiceswitch-inner {
-        display: block;
-        width: 200%;
-        margin-left: -100%;
-        transition: margin 0.3s ease-in 0s;
-      }
-      .voiceswitch-inner:before, .voiceswitch-inner:after {
-        display: block;
-        float: left;
-        width: 50%;
-        height: 18px;
-        padding: 0;
-        line-height: 18px;
-        font-size: 12px;
-        color: white;
-        font-family: Trebuchet, Arial, sans-serif;
-        font-weight: bold;
-        box-sizing: border-box;
-      }
-      .voiceswitch-inner:before {
-        content: "Male";
-        padding-left: 10px;
-        background-color: #42b6f1;
-        color: #FFFFFF;
-      }
-      .voiceswitch-inner:after {
-        content: "Female";
-        padding-right: 10px;
-        background-color: #ff7592; color: #ffffff;
-        text-align: right;
-      }
-      .voiceswitch-switch {
-        display: block;
-        width: 16px;
-        margin: 1px;
-        background: #ffffff;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 62px;
-        /*border: 2px solid #ffffff; */
-        border-radius: 12px;
-        transition: all 0.3s ease-in 0s;
-      }
-      .voiceswitch-checkbox:checked + .voiceswitch-label .voiceswitch-inner {
-          margin-left: 0;
-      }
-      .voiceswitch-checkbox:checked + .voiceswitch-label .voiceswitch-switch {
-          right: 0px;
+      .btnx {
+          background-color: #e7e7e7;
+          color: black;
+          border: none;
+          padding: 4px 4px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-family: "Comic Sans MS", cursive, sans-serif;
+          font-size: 14px;
+          margin: 4px 2px;
+          cursor: pointer;
       }
       .paddingPopup {
         padding-top: 4px;
@@ -189,11 +65,11 @@
       <div class="spacingTop"></div>
       <div id="status">
 
-        <button id="onoffswitchtoggle"></button>
+        <button class="btnx" id="onoffswitchtoggle"></button>
 
         <div class="paddingPopup"></div>
 
-        <button id="voiceswitchtoggle"></button>
+        <button class="btnx" id="voiceswitchtoggle"></button>
       <div class="voice_label">
         <label for="voice">Language:</label>
       </div>
