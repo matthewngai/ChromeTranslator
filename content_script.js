@@ -15,7 +15,7 @@ function removeExtensionPopup(){
 
 function calculateXY() {
     var sel = document.selection, range;
-    var width = 0, height = 0, middleHorizontal = 0, winHeightMid = 0, vertical = 0;
+    var width = 0, height = 0, middleHorizontal = 0, winHeightMid = 0, vertical = 0, textHeight;
     if (sel) {
         if (sel.type != "Control") {
             range = sel.createRange();
@@ -39,6 +39,7 @@ function calculateXY() {
                 topPos  = rect.top +  scrollTop - clientTop;
                 var left = rect.left + scrollLeft - clientLeft;
 
+                textHeight = (rect.bottom - rect.top);
                 middleHorizontal = (rect.right - rect.left)/2 + rect.left;
                 vertical = (rect.bottom - rect.top)/2 + rect.top;
                 winHeightMid = $(window).height() / 2;
@@ -48,10 +49,10 @@ function calculateXY() {
     console.log(vertical);
     console.log(winHeightMid);
     if (vertical > winHeightMid) {
-      finalVert = topPos;
+      finalVert = topPos; //minus
       showOnTop = 1;
     } else {
-      finalVert = topPos + (rect.bottom - rect.top);
+      finalVert = topPos + (rect.bottom - rect.top) + textHeight/2;
       showOnTop = 0;
     }
     console.log(finalVert);
