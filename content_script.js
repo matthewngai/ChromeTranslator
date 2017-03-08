@@ -3,6 +3,8 @@ var finalVert;
 var finalHoriz;
 var showOnTop = 0;
 var topPos;
+var textHeight;
+var doNotPop;
 
 function speakWords(selectedText) {
   chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
@@ -15,7 +17,7 @@ function removeExtensionPopup(){
 
 function calculateXY() {
     var sel = document.selection, range;
-    var width = 0, height = 0, middleHorizontal = 0, winHeightMid = 0, vertical = 0, textHeight;
+    var width = 0, height = 0, middleHorizontal = 0, winHeightMid = 0, vertical = 0;
     if (sel) {
         if (sel.type != "Control") {
             range = sel.createRange();
@@ -57,29 +59,33 @@ function calculateXY() {
     }
     console.log(finalVert);
     finalHoriz = middleHorizontal;
+    doNotPop = middleHorizontal;
 }
 
 function showPopup(selectedText) {
-textToSpeak = selectedText;
-
-var winpop = document.createElement("div");
-winpop.setAttribute("id", "chromeextensionpopup");
-winpop.style.left = finalHoriz +'px';
-winpop.style.top = finalVert +'px';
-//add something to trigger showtop or show bottom
-document.body.appendChild(winpop);
-var closelink = document.createElement("div");
-closelink.setAttribute("id", "chromeextensionpopupcloselink");
-closelink.innerText = 'x';
-document.getElementById("chromeextensionpopup").appendChild(closelink);
-var textDisplay = document.createElement("div");
-textDisplay.setAttribute("id", "displaytextstyle");
-winpop.appendChild(textDisplay);
-textDisplay.innerText = selectedText.sendback.replace(/(\r\n|\n|\r)/gm, " ");
-var speakerURL = chrome.extension.getURL('images/speaker.png');
-var img = "<img id='speakerImg' src="+ speakerURL +" />";
-// var $a = $("<a>", {id: "foo", "class": "a"});
-$('#displaytextstyle').prepend(img);
+  textToSpeak = selectedText;
+  var winpop = document.createElement("div");
+  winpop.setAttribute("id", "chromeextensionpopup");
+  winpop.style.left = finalHoriz +'px';
+  //add something to trigger showtop or show bottom
+  document.body.appendChild(winpop);
+  var closelink = document.createElement("div");
+  closelink.setAttribute("id", "chromeextensionpopupcloselink");
+  closelink.innerText = 'x';
+  document.getElementById("chromeextensionpopup").appendChild(closelink);
+  var textDisplay = document.createElement("div");
+  textDisplay.setAttribute("id", "displaytextstyle");
+  winpop.appendChild(textDisplay);
+  textDisplay.innerText = selectedText.sendback.replace(/(\r\n|\n|\r)/gm, " ");
+  var speakerURL = chrome.extension.getURL('images/speaker.png');
+  var img = "<img id='speakerImg' src="+ speakerURL +" />";
+  // var $a = $("<a>", {id: "foo", "class": "a"});
+  $('#displaytextstyle').prepend(img);
+  if (showOnTop) {
+    winpop.style.top = finalVert-$("#displaytextstyle").height()-textHeight +'px';
+  } else {
+    winpop.style.top = finalVert +'px';
+  }
 }
 function activateListeners() {
   document.addEventListener('mousedown', onMouseDown);
@@ -166,7 +172,9 @@ function initcs() {
     }
     else if (msg) {
       calculateXY();
-      showPopup(msg);
+      if (doNotPop) {
+        showPopup(msg);
+      }
     }
   });
 }
