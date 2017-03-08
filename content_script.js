@@ -52,7 +52,7 @@ function calculateXY() {
       finalVert = topPos; //minus
       showOnTop = 1;
     } else {
-      finalVert = topPos + (rect.bottom - rect.top) + textHeight/2;
+      finalVert = topPos + textHeight + textHeight/2;
       showOnTop = 0;
     }
     console.log(finalVert);
@@ -64,8 +64,8 @@ textToSpeak = selectedText;
 
 var winpop = document.createElement("div");
 winpop.setAttribute("id", "chromeextensionpopup");
-winpop.style.left = finalHoriz+'px';
-winpop.style.top = finalVert+'px';
+winpop.style.left = finalHoriz +'px';
+winpop.style.top = finalVert +'px';
 //add something to trigger showtop or show bottom
 document.body.appendChild(winpop);
 var closelink = document.createElement("div");
@@ -150,7 +150,6 @@ function deactivateListeners() {
     removeExtensionPopup();
     document.removeEventListener('mouseup', onMouseUp);
     document.removeEventListener('mousedown', onMouseDown);
-    documentStatus();
   } catch(err) {
     console.log(err);
   }
