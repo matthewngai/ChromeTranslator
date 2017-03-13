@@ -117,6 +117,66 @@ function sendOpenPopup(selectedText) {
   searchText(selectedText);
 }
 
+function sheik() {
+var searchQuery = 'water';
+
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://www.cantonese.sheik.co.uk/dictionary/search/?searchtype=4&text=" + searchQuery,
+    "method": "GET",
+    "headers": {
+      "cache-control": "no-cache"
+    }
+  }
+  $.ajax(settings).done(function(response) {
+
+    var contentArrayText = $(response).find(".chinesemed").contents();
+    var textOnlyArray = [];
+    for (var i = 0; i < contentArrayText.length; i++) {
+      textOnlyArray.push(contentArrayText[i]);
+    }
+
+    var jyutping = [];
+    var jyutpingArray = $(response).find("span.listjyutping").contents();
+    $(response).find("span.listjyutping").each(function(i, elm) {
+      jyutping.push($(this).text().trim());
+    });
+    // console.log(jyutping);
+
+    var definitions = [];
+    $(response).find('.border.valign td:last-child').each(function(i, elm) {
+        definitions.push($(this).text().trim());
+    });
+    //splice character entries for
+    var subStrIndexChar = searchStringInArray('character entries for', definitions);
+    if (subStrIndexChar !== -1) {
+      definitions.splice(subStrIndexChar, 1);
+    }
+    //splice word entries for
+    var subStrIndexWord = searchStringInArray('word entries for', definitions);
+    if (subStrIndexWord !== -1) {
+      definitions.splice(subStrIndexWord, 1);
+    }
+
+    definitions.shift(); //rid of empty quote element ''
+    definitions.shift(); //rid of 'Meaning'
+
+    var wordIndex = definitions.indexOf("Meaning!"); //keep this to split char/word
+    if (wordIndex !== -1) {
+      definitions.splice(wordIndex, 1);
+    }
+
+  });
+}
+
+function searchStringInArray(str, strArray) {
+  for (var j=0; j<strArray.length; j++) {
+    if (strArray[j].match(str)) return j;
+  }
+  return -1;
+}
+
 function initBackground() {
   keyMap = {
   'native': 'en',
