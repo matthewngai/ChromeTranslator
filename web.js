@@ -7,7 +7,10 @@ var url = 'http://www.cantonese.sheik.co.uk/dictionary/search/?searchtype=4&text
 
 request(url, function (error, response, html) {
   if (!error && response.statusCode == 200) {
+    // var $ = cheerio.load(response.body);
   	var $ = cheerio.load(response.body);
+    // console.log($);
+    // console.log(cheerio);
   	var charText = $('.chinesemed').contents().map(function() {
     if (this.type === 'text')
         return $(this).text().trim();
@@ -16,6 +19,7 @@ request(url, function (error, response, html) {
 
 	var jyutping = [];
 	$('span.listjyutping').each(function(i, elm) {
+    console.log($(this).text().trim());
     	jyutping.push($(this).text().trim());
 	}).get();
 	// console.log(jyutping);
