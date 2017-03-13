@@ -63,7 +63,11 @@ function calculateXY() {
 }
 
 function showPopup(selectedText) {
-  textToSpeak = selectedText;
+  if (selectedText.sendback) {
+    textToSpeak = selectedText;
+  } else if (selectedText.entries) {
+    //pick the one selected to speak
+  }
   var winpop = document.createElement("div");
   winpop.setAttribute("id", "chromeextensionpopup");
   winpop.style.left = finalHoriz +'px';
@@ -117,7 +121,7 @@ function onMouseUp(evt) {
           if (evt.target.id != parentElement.id) {
             var target = $(evt.target);
             if (target[0].id == 'speakerImg') {
-                speakWords(textToSpeak.sendback);
+                speakWords(textToSpeak);
             } else if (!target.parents('div#chromeextensionpopup').length) {
               removeExtensionPopup();
             }

@@ -112,18 +112,19 @@ function speak(utterance) {
       });
 }
 
+//find out how to toggle this
 function sendOpenPopup(selectedText) {
   // var returnText = selectedText; //do actual translations though...
-  searchText(selectedText);
+  // searchText(selectedText);
+  sheik(selectedText);
 }
 
-function sheik() {
-var searchQuery = 'water';
-
+function sheik(selectedText) {
+  var entries = {};
   var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "http://www.cantonese.sheik.co.uk/dictionary/search/?searchtype=4&text=" + searchQuery,
+    "url": "http://www.cantonese.sheik.co.uk/dictionary/search/?searchtype=4&text=" + selectedText,
     "method": "GET",
     "headers": {
       "cache-control": "no-cache"
@@ -167,6 +168,14 @@ var searchQuery = 'water';
       definitions.splice(wordIndex, 1);
     }
 
+    entries.textOnlyArray = textOnlyArray;
+    entries.jyutping = jyutping;
+    entries.definitions = definitions;
+    entries.wordIndex = wordIndex;
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id, {entries: entries}, function(response) {});
+    });
   });
 }
 
