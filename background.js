@@ -150,12 +150,12 @@ function sheik(selectedText) {
         definitions.push($(this).text().trim());
     });
     //splice character entries for
-    var subStrIndexChar = searchStringInArray('character entries for', definitions);
+    var subStrIndexChar = searchStringInArray('character ent', definitions);
     if (subStrIndexChar !== -1) {
       definitions.splice(subStrIndexChar, 1);
     }
     //splice word entries for
-    var subStrIndexWord = searchStringInArray('word entries for', definitions);
+    var subStrIndexWord = searchStringInArray('word ent', definitions);
     if (subStrIndexWord !== -1) {
       definitions.splice(subStrIndexWord, 1);
     }

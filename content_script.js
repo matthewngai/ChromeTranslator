@@ -129,7 +129,11 @@ function showPopup(selectedText) {
         html += '</tr>';
     }
     document.getElementById('chrometranslatingtbody').innerHTML += html;
-
+    if (showOnTop) {
+      winpop.style.top = finalVert-$("#chrometranslatingtablegroup").height()-textHeight +'px';
+    } else {
+      winpop.style.top = finalVert +'px';
+    }
   }
 
 }
