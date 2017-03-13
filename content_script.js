@@ -65,31 +65,73 @@ function calculateXY() {
 function showPopup(selectedText) {
   if (selectedText.sendback) {
     textToSpeak = selectedText;
+
+    var winpop = document.createElement("div");
+    winpop.setAttribute("id", "chromeextensionpopup");
+    winpop.style.left = finalHoriz +'px';
+    document.body.appendChild(winpop);
+    var closelink = document.createElement("div");
+    closelink.setAttribute("id", "chromeextensionpopupcloselink");
+    closelink.innerText = 'x';
+    document.getElementById("chromeextensionpopup").appendChild(closelink);
+    //beginning of actual text
+    var textDisplay = document.createElement("div");
+    textDisplay.setAttribute("id", "displaytextstyle");
+    winpop.appendChild(textDisplay);
+    textDisplay.innerText = selectedText.sendback.replace(/(\r\n|\n|\r)/gm, " ");
+    var speakerURL = chrome.extension.getURL('images/speaker.png');
+    var img = "<img id='speakerImg' src="+ speakerURL +" />";
+    // var $a = $("<a>", {id: "foo", "class": "a"});
+    $('#displaytextstyle').prepend(img);
+    if (showOnTop) {
+      winpop.style.top = finalVert-$("#displaytextstyle").height()-textHeight +'px';
+    } else {
+      winpop.style.top = finalVert +'px';
+    }
   } else if (selectedText.entries) {
     //pick the one selected to speak
+    var winpop = document.createElement("div");
+    winpop.setAttribute("id", "chromeextensionpopup");
+    winpop.style.left = finalHoriz +'px';
+    document.body.appendChild(winpop);
+    var closelink = document.createElement("div");
+    closelink.setAttribute("id", "chromeextensionpopupcloselink");
+    closelink.innerText = 'x';
+    document.getElementById("chromeextensionpopup").appendChild(closelink);
+    var tableGroup = document.createElement("table");
+    tableGroup.setAttribute("id", "chrometranslatingtablegroup");
+    winpop.appendChild(tableGroup);
+    var tbody = document.createElement("tbody");
+    tbody.setAttribute("id", "chrometranslatingtbody");
+    document.getElementById("chrometranslatingtablegroup").appendChild(tbody);
+    //parse table into 4 columns and 'x' amount of rows
+
+    var cols = 3; //it's actually 4
+    var rows = selectedText.entries.textOnlyArray.length;
+    var html = "";
+
+    for(var i = 0; i < rows; i++) {
+        html += '<tr>';
+        var element;
+        for(var h = 0; h <= cols; h++) {
+          if (h == 0) {
+            //speaker icon
+            element = '';  //for now...
+          } else if (h == 1) {
+            element = selectedText.entries.textOnlyArray[i];
+          } else if (h == 2) {
+            element = selectedText.entries.jyutping[i];
+          } else if (h == 3) {
+            element = selectedText.entries.definitions[i];
+          }
+           html += '<td>' + element + '</td>';
+        }
+        html += '</tr>';
+    }
+    document.getElementById('chrometranslatingtbody').innerHTML += html;
+
   }
-  var winpop = document.createElement("div");
-  winpop.setAttribute("id", "chromeextensionpopup");
-  winpop.style.left = finalHoriz +'px';
-  //add something to trigger showtop or show bottom
-  document.body.appendChild(winpop);
-  var closelink = document.createElement("div");
-  closelink.setAttribute("id", "chromeextensionpopupcloselink");
-  closelink.innerText = 'x';
-  document.getElementById("chromeextensionpopup").appendChild(closelink);
-  var textDisplay = document.createElement("div");
-  textDisplay.setAttribute("id", "displaytextstyle");
-  winpop.appendChild(textDisplay);
-  textDisplay.innerText = selectedText.sendback.replace(/(\r\n|\n|\r)/gm, " ");
-  var speakerURL = chrome.extension.getURL('images/speaker.png');
-  var img = "<img id='speakerImg' src="+ speakerURL +" />";
-  // var $a = $("<a>", {id: "foo", "class": "a"});
-  $('#displaytextstyle').prepend(img);
-  if (showOnTop) {
-    winpop.style.top = finalVert-$("#displaytextstyle").height()-textHeight +'px';
-  } else {
-    winpop.style.top = finalVert +'px';
-  }
+
 }
 function activateListeners() {
   document.addEventListener('mousedown', onMouseDown);

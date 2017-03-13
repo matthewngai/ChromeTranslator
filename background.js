@@ -135,7 +135,7 @@ function sheik(selectedText) {
     var contentArrayText = $(response).find(".chinesemed").contents();
     var textOnlyArray = [];
     for (var i = 0; i < contentArrayText.length; i++) {
-      textOnlyArray.push(contentArrayText[i]);
+      textOnlyArray.push(contentArrayText[i].textContent);
     }
 
     var jyutping = [];
