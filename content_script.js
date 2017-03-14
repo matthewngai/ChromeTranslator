@@ -73,10 +73,7 @@ function showPopup(selectedText) {
     winpop.setAttribute("id", "chromeextensionpopup");
     winpop.style.left = finalHoriz +'px';
     document.body.appendChild(winpop);
-    var closelink = document.createElement("div");
-    closelink.setAttribute("id", "chromeextensionpopupcloselink");
-    closelink.innerText = 'x';
-    document.getElementById("chromeextensionpopup").appendChild(closelink);
+
     //beginning of actual text
     var textDisplay = document.createElement("div");
     textDisplay.setAttribute("id", "displaytextstyle");
@@ -99,10 +96,7 @@ function showPopup(selectedText) {
     winpop.setAttribute("id", "chromeextensionpopup");
     winpop.style.left = finalHoriz +'px';
     document.body.appendChild(winpop);
-    var closelink = document.createElement("div");
-    closelink.setAttribute("id", "chromeextensionpopupcloselink");
-    closelink.innerText = 'x';
-    document.getElementById("chromeextensionpopup").appendChild(closelink);
+
     var tableGroup = document.createElement("table");
     tableGroup.setAttribute("id", "chrometranslatingtablegroup");
     winpop.appendChild(tableGroup);

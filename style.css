@@ -7,7 +7,7 @@
     right: 20px;
     text-align: center;
     top: 20px;
-    max-height: 450px;
+    max-height: 350px !important;
     overflow: auto;
     z-index: 999999999;
     border-radius: 3px 3px 3px 3px;
@@ -35,11 +35,18 @@
   font-family: Arial, Georgia, Cambria, "Times New Roman", Times,serif !important;
   max-width: 550px !important;
   min-width: 200px !important;
+  overflow-y: scroll;
 }
 
 .ct-chin-text-speciale {
   font-size: 24px !important;
   color: blue;
+}
+
+#chrometranslatingtbody {
+  display: block;
+  max-height: 350px;
+  overflow-y: scroll;
 }
 
 #displaytextstyle {
