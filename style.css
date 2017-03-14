@@ -25,13 +25,27 @@
     text-align: center;
     width: 25px;
     position: relative;
+    font-size: 22px !important;
+    font-family: Arial, Georgia, Cambria, "Times New Roman", Times,serif !important;
 
+}
+
+#chrometranslatingtablegroup {
+  font-size: 16px;
+  font-family: Arial, Georgia, Cambria, "Times New Roman", Times,serif !important;
+  max-width: 550px !important;
+  min-width: 200px !important;
+}
+
+.ct-chin-text-speciale {
+  font-size: 24px !important;
+  color: blue;
 }
 
 #displaytextstyle {
   float:left;
-  max-width: 400px;
-  min-width: 200px;
+  max-width: 400px !important;
+  min-width: 200px !important;
   word-wrap: break-word;
   overflow: auto;
   position: relative;

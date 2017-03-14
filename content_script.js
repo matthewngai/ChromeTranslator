@@ -132,7 +132,11 @@ function showPopup(selectedText) {
           } else if (h == 3) {
             element = selectedText.entries.definitions[i];
           }
-           html += '<td>' + element + '</td>';
+          if (h == 1) { //enlarge
+             html += '<td class="ct-chin-text-speciale">' + element + '</td>';
+          } else {
+             html += '<td>' + element + '</td>';
+          }
         }
         html += '</tr>';
     }
