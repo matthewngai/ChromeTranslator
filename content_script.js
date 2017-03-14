@@ -127,7 +127,7 @@ function showPopup(selectedText) {
             element = selectedText.entries.definitions[i];
           }
           if (h == 1) { //enlarge
-             html += '<td class="ct-chin-text-speciale">' + element + '</td>';
+             html += '<td id="ctTtsTRanslate" class="ct-chin-text-speciale">' + element + '</td>';
           } else {
              html += '<td>' + element + '</td>';
           }

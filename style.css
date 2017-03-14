@@ -38,25 +38,33 @@
   overflow-y: scroll;
 }
 
-.ct-chin-text-speciale {
+#ctTtsTRanslate.ct-chin-text-speciale {
   font-size: 24px !important;
-  color: blue;
+  color: blue !important;
 }
 
-tr.even, table tr.alt, table tr:nth-of-type(even) {
-    background: #f8f8f7 !important;
-}
-
-.spk-id {
+#chrometranslatingtablegroup.spk-id {
   height: 18px !important;
   width: 18px !important;
 }
 
-table tr td {
+#chrometranslatingtablegroup tr:nth-of-type(even) {
+    background: #f8f8f7;
+}
+
+#chrometranslatingtablegroup table {
     padding: .5625em .625em !important;
     font-size: inherit;
 }
-table {
+#chrometranslatingtablegroup tr {
+    padding: .5625em .625em !important;
+    font-size: inherit;
+}
+#chrometranslatingtablegroup td {
+    padding: .5625em .625em !important;
+    font-size: inherit;
+}
+#chrometranslatingtablegroup table {
     background: #fff;
     border: solid 1px #dedede;
 }
