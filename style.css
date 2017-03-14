@@ -52,6 +52,14 @@ tr.even, table tr.alt, table tr:nth-of-type(even) {
   width: 18px !important;
 }
 
+table tr td {
+    padding: .5625em .625em !important;
+    font-size: inherit;
+}
+table {
+    background: #fff;
+    border: solid 1px #dedede;
+}
 #chrometranslatingtbody {
   display: block;
   max-height: 350px;
@@ -66,4 +74,24 @@ tr.even, table tr.alt, table tr:nth-of-type(even) {
   overflow: auto;
   position: relative;
 
+}
+
+#chrometranslatingtbody::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#chrometranslatingtbody::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#chrometranslatingtbody::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #c1c1c1;
 }
