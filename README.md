@@ -1,5 +1,7 @@
 # ChromeTranslator
-TODO: If popup far right, shift it left
+TODO: 
+
+If popup far right, shift it left
 
 security xss be careful
 
