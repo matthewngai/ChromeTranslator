@@ -5,6 +5,9 @@ var showOnTop = 0;
 var topPos;
 var textHeight;
 var doNotPop;
+var globalSpeakerId = "ct-chrome-tts-speakerImg-"; //for repeating speaker icon
+var idSlot; //id for selected text in array
+var tempWordsArray = [];
 
 function speakWords(selectedText) {
   chrome.runtime.sendMessage(null, {'speakWords' : selectedText});
@@ -90,6 +93,8 @@ function showPopup(selectedText) {
     }
   } else if (selectedText.entries) {
     //pick the one selected to speak
+    tempWordsArray = selectedText.entries.textOnlyArray;
+
     var winpop = document.createElement("div");
     winpop.setAttribute("id", "chromeextensionpopup");
     winpop.style.left = finalHoriz +'px';
@@ -116,7 +121,10 @@ function showPopup(selectedText) {
         for(var h = 0; h <= cols; h++) {
           if (h == 0) {
             //speaker icon
-            element = '';  //for now...
+            var speakerURL = chrome.extension.getURL('images/speaker.png');
+            var speakerId = globalSpeakerId + i;
+            var img = "<img id=" + speakerId + " src="+ speakerURL +" />";
+            element = img;
           } else if (h == 1) {
             element = selectedText.entries.textOnlyArray[i];
           } else if (h == 2) {
@@ -128,6 +136,11 @@ function showPopup(selectedText) {
         }
         html += '</tr>';
     }
+
+    // document.getElementById("chrometranslatingtablegroup").addEventListener("click", function(e) {
+    //
+    // });
+
     document.getElementById('chrometranslatingtbody').innerHTML += html;
     if (showOnTop) {
       winpop.style.top = finalVert-$("#chrometranslatingtablegroup").height()-textHeight +'px';
@@ -170,7 +183,14 @@ function onMouseUp(evt) {
                 speakWords(textToSpeak);
             } else if (!target.parents('div#chromeextensionpopup').length) {
               removeExtensionPopup();
-            }
+            } else if(evt.target && evt.target.nodeName == "IMG") {
+              var chosenSpeakId = evt.target.id;
+              if (chosenSpeakId.indexOf(globalSpeakerId) >= 0) {
+                idSlot = chosenSpeakId.substr(chosenSpeakId.indexOf(globalSpeakerId) + globalSpeakerId.length, chosenSpeakId.length);
+                speakWords(tempWordsArray[idSlot]);
+              }
+          	}
+
           }
         }
         catch(error) {
