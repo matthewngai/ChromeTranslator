@@ -51,8 +51,6 @@ function calculateXY() {
             }
         }
     }
-    console.log(vertical);
-    console.log(winHeightMid);
     if (vertical > winHeightMid) {
       finalVert = topPos; //minus
       showOnTop = 1;
@@ -60,7 +58,6 @@ function calculateXY() {
       finalVert = topPos + textHeight + textHeight/2;
       showOnTop = 0;
     }
-    console.log(finalVert);
     finalHoriz = middleHorizontal;
     doNotPop = middleHorizontal;
 }
@@ -234,7 +231,6 @@ function initcs() {
 
   chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.switchback) {
-      console.log(msg.switchback);
       if (msg.switchback == 'On') {
         activateListeners();
       }
