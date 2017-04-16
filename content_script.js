@@ -108,36 +108,36 @@ function showPopup(selectedText) {
     var cols = 3; //it's actually 4
     var rows = selectedText.entries.textOnlyArray.length;
     var html = "";
-
-    for(var i = 0; i < rows; i++) {
-        html += '<tr>';
-        var element;
-        for(var h = 0; h <= cols; h++) {
-          if (h == 0) {
-            //speaker icon
-            var speakerURL = chrome.extension.getURL('images/speaker.png');
-            var speakerId = globalSpeakerId + i;
-            var img = '<img class="spk-id" style="min-width: 24px; max-width: 32px;" id=' + speakerId + ' src='+ speakerURL +' />';
-            element = img;
-          } else if (h == 1) {
-            element = selectedText.entries.textOnlyArray[i];
-          } else if (h == 2) {
-            element = selectedText.entries.jyutping[i];
-          } else if (h == 3) {
-            element = selectedText.entries.definitions[i];
+    var noResults = 'No results found.';
+    if (!selectedText.entries.textOnlyArray.length) {
+      html += '<div>' + noResults + '</div>';
+    } else {
+      for(var i = 0; i < rows; i++) {
+          html += '<tr>';
+          var element;
+          for(var h = 0; h <= cols; h++) {
+            if (h == 0) {
+              //speaker icon
+              var speakerURL = chrome.extension.getURL('images/speaker.png');
+              var speakerId = globalSpeakerId + i;
+              var img = '<img class="spk-id" style="min-width: 24px; max-width: 32px;" id=' + speakerId + ' src='+ speakerURL +' />';
+              element = img;
+            } else if (h == 1) {
+              element = selectedText.entries.textOnlyArray[i];
+            } else if (h == 2) {
+              element = selectedText.entries.jyutping[i];
+            } else if (h == 3) {
+              element = selectedText.entries.definitions[i];
+            }
+            if (h == 1) { //enlarge
+               html += '<td id="ctTtsTRanslate" class="ct-chin-text-speciale">' + element + '</td>';
+            } else {
+               html += '<td>' + element + '</td>';
+            }
           }
-          if (h == 1) { //enlarge
-             html += '<td id="ctTtsTRanslate" class="ct-chin-text-speciale">' + element + '</td>';
-          } else {
-             html += '<td>' + element + '</td>';
-          }
-        }
-        html += '</tr>';
+          html += '</tr>';
+      }
     }
-
-    // document.getElementById("chrometranslatingtablegroup").addEventListener("click", function(e) {
-    //
-    // });
 
     document.getElementById('chrometranslatingtbody').innerHTML += html;
     if (showOnTop) {
