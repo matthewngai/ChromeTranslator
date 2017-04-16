@@ -106,7 +106,7 @@ function showPopup(selectedText) {
     var rows = selectedText.entries.textOnlyArray.length;
     var html = "";
     var noResults = 'No results found.';
-    if (!selectedText.entries.textOnlyArray.length) {
+    if (!rows) {
       html += '<div>' + noResults + '</div>';
     } else {
       for(var i = 0; i < rows; i++) {
@@ -136,7 +136,9 @@ function showPopup(selectedText) {
       }
     }
 
+    // should be free of html elements
     document.getElementById('chrometranslatingtbody').innerHTML += html;
+
     if (showOnTop) {
       winpop.style.top = finalVert-$("#chrometranslatingtablegroup").height()-textHeight +'px';
     } else {

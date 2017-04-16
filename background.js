@@ -119,6 +119,15 @@ function sendOpenPopup(selectedText) {
   sheik(selectedText);
 }
 
+function htmlEscape(str) {
+      return String(str)
+              .replace(/&/g, '&amp;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#39;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;');
+}
+
 function sheik(selectedText) {
   var entries = {};
   var settings = {
@@ -135,19 +144,24 @@ function sheik(selectedText) {
     var contentArrayText = $(response).find(".chinesemed").contents();
     var textOnlyArray = [];
     for (var i = 0; i < contentArrayText.length; i++) {
-      textOnlyArray.push(contentArrayText[i].textContent);
+      var cnText = htmlEscape(contentArrayText[i].textContent);
+      cnText = cnText.replace(/[\n]/g,"<BR>");
+      textOnlyArray.push(cnText);
     }
 
     var jyutping = [];
     var jyutpingArray = $(response).find("span.listjyutping").contents();
     $(response).find("span.listjyutping").each(function(i, elm) {
-      jyutping.push($(this).text().trim());
+      var jpText = htmlEscape($(this).text().trim());
+      jpText = jpText.replace(/[\n]/g,"<BR>");
+      jyutping.push(jpText);
     });
-    // console.log(jyutping);
 
     var definitions = [];
     $(response).find('.border.valign td:last-child').each(function(i, elm) {
-        definitions.push($(this).text().trim());
+      var defText = htmlEscape($(this).text().trim());
+      defText = defText.replace(/[\n]/g,"<BR>");
+      definitions.push(defText);
     });
     //splice character entries for
     var subStrIndexChar = searchStringInArray('character ent', definitions);
