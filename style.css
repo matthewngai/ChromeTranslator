@@ -46,6 +46,13 @@
 #chrometranslatingtablegroup.spk-id {
   height: 18px !important;
   width: 18px !important;
+  min-width: 24px !important;
+  min-width: 30px !important;
+}
+
+.spk-id > td img {
+  min-width: 24px !important;
+  min-width: 30px !important;
 }
 
 #chrometranslatingtablegroup tr:nth-of-type(even) {
