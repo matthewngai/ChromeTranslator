@@ -50,11 +50,6 @@
   min-width: 30px !important;
 }
 
-.spk-id > td img {
-  min-width: 24px !important;
-  min-width: 30px !important;
-}
-
 #chrometranslatingtablegroup tr:nth-of-type(even) {
     background: #f8f8f7;
 }

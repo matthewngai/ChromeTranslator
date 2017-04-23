@@ -117,7 +117,7 @@ function showPopup(selectedText) {
               //speaker icon
               var speakerURL = chrome.extension.getURL('images/speaker.png');
               var speakerId = globalSpeakerId + i;
-              var img = '<img class="spk-id" style="min-width: 24px; max-width: 32px;" id=' + speakerId + ' src='+ speakerURL +' />';
+              var img = '<img style="min-width: 24px; max-width: 32px;" id=' + speakerId + ' src='+ speakerURL +' />';
               element = img;
             } else if (h == 1) {
               element = selectedText.entries.textOnlyArray[i];
