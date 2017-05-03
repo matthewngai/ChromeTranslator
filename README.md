@@ -1,4 +1,4 @@
-# ChromeTranslator
+# Chrome Translator
 
 Chrome Extension for translation
 
